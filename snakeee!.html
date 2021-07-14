@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Snake Game!</title>
+	<meta charset="UTF-8">
+	<style type="text/css">
+       #left { position: absolute; left: 0; top: 0; width: 50%; }
+       #right { color: white; position: absolute; right: 0; top: 0; width: 50%; }
+	html{
+		cursor: pointer;
+		font-weight: 400;
+	}
+	input {
+  display: inline-block;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+  background-size: 90% auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+  transition: .5s;
+}
+button {
+  display: inline-block;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+  background-size: 90% auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+  transition: .5s;
+}
+select {
+  display: inline-block;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+  background-size: 90% auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+  transition: .5s;
+}
+option {
+  color: black;
+}
+#show_setts {
+  position: absolute;
+  margin: 1.6px;
+  background-color: red;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+#show_setts:checked {
+  margin: 1.8px;
+  background-color: gray;
+}
+
+	</style>
+</head>
+<body bgcolor="Black">
+	<div id="left"><canvas width="660" id="c" height="660">Hmm... Sorry, but your browser can't draw :'(</canvas></div>
+	<div id="right"><br><h2><b><I>
+		Control Keys :<br><ul>
+		<li>R - restart;</li>
+		<li>W/&uarr; - turn up;</li>
+		<li>A/&larr; - turn left</li>
+		<li>S/&darr; - turn down</li>
+		<li>D/&rarr; - turn right</li>
+		<li>Space(" ") - pause/resume</li>
+		<li>Shift - acceleration. Don't get into debt!</li>
+	</ul></I></b></h2>
+	Show Settings<input type="checkbox" onclick="settis()" id="show_setts" checked><ul id="settings">
+	<div id="3"><input type="password" id="console" placeholder="nothing here"><button onclick="doin()">Do</button></div><div id="4"><input type="color" id="bgcolor"><button onclick="dobgcol()">Set Background</button></div><div id="5"> &nbsp;</div><div id="6">Play Sounds<input type="checkbox" onclick="sonds()" id="sounds"></div><div id="7"> &nbsp; </div><div>RU<input type="radio" id="ru" name="lang"> EN<input type="radio" id="en" name="lang" checked> UA<input type="radio" id="ua" name="lang"></div><div> &nbsp; </div>
+	<li>Rainbow<input type="radio" id="rabo" name="colors"></li>
+	<li>Yellow<input type="radio" id="yell" name="colors"></li>
+	<li>Two Colors(selecting)<input type="radio" id="2color" checked name="colors"> &nbsp; <input type="color" id="col_change2_1" value="#FF0000"><input type="color" id="col_change2_2" value="#0000FF"></li>
+	<li>One Color(selecting)<input type="radio" id="1color" checked name="colors"> &nbsp; <input type="color" id="col_change1" value="#FFFFFF"></li>
+	<li><button onclick="checkCol()">Set it!</button></li>
+	<div> &nbsp; </div><div>
+	<select>
+	  <option id="peaceful">Peaceful</option>
+	  <option id="easy">Easy</option>
+ 	  <option id="normal" selected>Normal</option>
+	  <option id="hardcore">Hardcore</option>
+	</select><button onclick="diffic()">Set</button></div><div> &nbsp; </div><div>It's Phone?<input type="checkbox" id="isPhone"></div>
+	</ul></div>
+	<script src="http://code.jquery.com/jquery-2.1.0.js"></script> 
+	<!--script src=""></script-->
+	<script id="snake">
+var coords=[]
+var last3sec = {score:0,apple}
+//Создание переменных с html-элементами, и переменных скорости игры
+var bgcolor = "#000000"
+var textcolor = bgcolor.replaceAll("00","FF")
+var speed = 200;
+var lvl=1; 
+var basespeed = speed;
+var acceleration = 20;
+var setts=document.getElementById("settings")
+var isphone = document.getElementById("isPhone")
+var showsetts=document.getElementById("show_setts");
+var bgcol = document.getElementById("bgcolor");
+var twocol = document.getElementById("2color");
+var yell = document.getElementById("yell");
+var rain = document.getElementById("rabo");
+var onecol = document.getElementById("1color");
+var col_chan = document.getElementById("col_change1");
+var col_chan2_1 = document.getElementById("col_change2_1");
+var col_chan2_2 = document.getElementById("col_change2_2");
+var cvs = document.getElementById("c");
+var c = cvs.getContext("2d");
+var width = cvs.width;
+var height = cvs.height;
+var ctrl = false
+//Время игры
+var time=0;
+var eatspeed;
+function seteatsped(){
+	eatspeed=(snake.segments.length-6)/time*60
+	eatspeed=String(eatspeed).slice(0,3)
+}
+setInterval(function(){
+	if(!stopping)
+	time++
+	seteatsped()
+	},1000)
+function seconds(){
+	if(String(time%60).length==1){
+		return "0"+String(time%60)
+	}
+	return String(time%60);
+}
+function minutes(){
+	if(String((time-time%60)/60).length==1){
+		return "0"+String((time-time%60)/60)
+	}
+	return String((time-time%60)/60);
+}
+//Сложности
+var pefu=document.getElementById("peaceful")
+var easy=document.getElementById("easy")
+var norm=document.getElementById("normal")
+var hard=document.getElementById("hardcore")
+function diffic(){
+	if(pefu.selected){
+	basespeed=165;
+	speed=basespeed;
+	hard=false;
+	nogameov=true;
+	}else if(easy.selected){
+	basespeed=350;
+	speed=basespeed;
+	hard=false;
+	nogameov=false;
+	}else if(norm.selected){
+	basespeed=200;
+	speed=basespeed;
+	hard=false;
+	nogameov=false;
+	}else{
+	basespeed=185;
+	speed=basespeed;
+	hard=true;
+	nogameov=false;
+	}
+}
+//Языки
+var eng=document.getElementById("en");
+var ukr=document.getElementById("ua")
+var rus=document.getElementById("ru");
+//Звуки...
+var sondy=document.getElementById("sounds")
+var play_sonds = false;
+var scorr = new Audio()
+var turning = new Audio()
+var adddebt = new Audio()
+var gaov = new Audio()
+scorr.src="D:/To%20Leisure/flappy/audio/score.mp3"
+turning.src="D:/To%20Leisure/flappy/audio/fly.mp3"
+adddebt.src ="D:/To%20Leisure/audios/addborg.mp3"
+gaov.src ="D:/To%20Leisure/audios/gameover.mp3"
+//Создание переменных, которые обозначают продолжение игры
+var go=true
+var stopping = false;
+var gameover = false;
+//Цветовые гаммы змейки и яблочка
+var colOfYellSnakeSeg = ["GoldenRod","Darkorange","Orange","Gold","Yellow","Khaki","Moccasin"]
+var colOfBlreSnakeSeg = ["Red","Blue","Red","Blue","Red","Blue","Red"]
+var colOfSnakeSeg = ["Red","Blue","Red","Blue","Red","Blue","Red"]
+var colOfRainSnakeSeg = ["Red","Orange","Yellow","Green","SkyBlue","Blue","Purple"]
+var colorOfApple = ["Red","Yellow","LimeGreen","Chartreuse","YellowGreen","Orange"]
+//Создание переменных, позволяющих поделить игровое поле на блоки BS^2
+var BS = 15;
+var widthInB = width / BS;
+var heightInB = height / BS;
+//Создание переменных, которые связаны с счетом игры, и которые будут рисоватся на полотне
+var borg = 0
+var score = 0;
+var best_score=0;
+function sonds(){
+	if(sondy.checked){
+		play_sonds=true
+	}else{
+		play_sonds=false
+	}
+}
+function dobgcol(){
+	document.body.bgColor=bgcol.value
+	bgcolor=bgcol.value
+	var textcolor = bgcolor.replaceAll("00","FF").replaceAll("FF","00")
+}
+//Функция создания игрового барьера
+function drawBorder() {
+	c.fillStyle = "Gray";
+	c.fillRect(0,0,width,BS)
+	c.fillRect(0,height-BS,width,BS)
+	c.fillRect(0,0,BS,height)
+	c.fillRect(width-BS,0,BS,height)}
+//Функция записи переменных, которые связаны с счетом игры
+function checkCol(){
+	if(twocol.checked){
+		colOfSnakeSeg=["White","White","White","White","White","White","White"]
+		for(let i=0;i<8;i+=2){
+		colOfSnakeSeg[i]=col_chan2_1.value
+		}for(let i=1;i<7;i+=2){
+		colOfSnakeSeg[i]=col_chan2_2.value
+		}
+	}else if(yell.checked){
+		colOfSnakeSeg=colOfYellSnakeSeg
+	}else if(onecol.checked){
+		for(let i=0;i<7;i++){
+		colOfSnakeSeg[i]=col_chan.value
+		}
+	}else{
+		colOfSnakeSeg=colOfRainSnakeSeg
+	}
+}
+function bigPerOne(biggerNum,smallerNum){
+	if((biggerNum-smallerNum)==1){
+		return true
+	}else{
+		return false
+	}
+}
+function drawPause(){
+c.fillStyle="White"
+circle(307.5,height-BS,BS,true)
+if(lvl==4){
+c.fillStyle="Red"
+c.beginPath()
+c.arc(304,624,5,0,Math.PI,true)
+c.arc(310,624,5,0,Math.PI,true)
+c.moveTo(299,624)
+c.lineTo(307,635)
+c.lineTo(315,624)
+c.fill()
+}else{
+c.fillStyle="Black"
+c.fillRect(300,height-BS*1.55,BS/3,BS)
+c.fillRect(310,height-BS*1.55,BS/3,BS)
+}}
+function newLevel(){
+	lvl++
+}
+//Показать/Скрыть настройки
+function settis(){
+	if(showsetts.checked){
+	$(setts).show()
+	}else{
+	$(setts).hide()
+	}
+}
+function drawScore() {
+	c.font = "20px Courier";
+	c.fillStyle = "White";
+	if(bgcolor=="#ffffff"){
+	c.fillStyle="Black";
+	}
+	c.textAlign = "left";
+	c.textBaseline = "top";
+	if(eng.checked){
+	if(borg<1){
+	c.fillText("Score: "+score,BS*2,BS*2)
+	}else{
+	c.fillText("Score: "+score+", Debt: "+borg,BS*2,BS*2)
+	}
+	c.textBaseline = "bottom";
+	c.fillText("Best score: "+best_score+", Time: "+minutes()+":"+seconds()+", "+eatspeed+" app./min",BS*2,height-BS*2.5)
+	}else if(ukr.checked){
+	if(borg<1){
+	c.fillText("Рахунок: "+score,BS*2,BS*2)
+	}else{
+	c.fillText("Рахунок: "+score+", Борг: "+borg,BS*2,BS*2)
+	}
+	c.textBaseline = "bottom";
+	c.fillText("Кращий рахунок: "+best_score+", Час: "+minutes()+":"+seconds()+", "+eatspeed+" ябл./хв",BS*2,height-BS*2.5)
+	}else{
+	if(borg<1){
+	c.fillText("Счёт: "+score,BS*2,BS*2)
+	}else{
+	c.fillText("Счёт: "+score+", Долг: "+borg,BS*2,BS*2)
+	}
+	c.textBaseline = "bottom";
+	c.fillText("Лучший счёт: "+best_score+", Время: "+minutes()+":"+seconds()+", "+eatspeed+" ябл./мин",BS*2,height-BS*2.5)
+	}}
+//Класс Brick, с экземпляром brick
+class Brick extends Block{
+	constructor(c,r){
+		super(c,r)
+	}
+	draw(){
+		super.drawSquare(BS,BS,"Maroon")
+		c.beginPath()
+		c.strokeStyle="Grey"
+		c.lineWidth=2
+		//горизонтальные перегородки
+		c.moveTo(this.col*BS,this.row*BS+BS/2)
+		c.lineTo(this.col*BS+BS,this.row*BS+BS/2)
+		c.moveTo(this.col*BS,this.row*BS)
+		c.lineTo(this.col*BS+BS,this.row*BS)
+		//верхняя вертикальная перегородка
+		c.moveTo(this.col*BS+BS/2,this.row*BS)
+		c.lineTo(this.col*BS+BS/2,this.row*BS+BS/2)
+		//нижние вертикальные перегородки
+		//левая
+		c.moveTo(this.col*BS+BS/3,this.row*BS+BS/2)
+		c.lineTo(this.col*BS+BS/3,this.row*BS+BS)
+		//правая
+		c.moveTo(this.col*BS+BS*3/4,this.row*BS+BS/2)
+		c.lineTo(this.col*BS+BS*3/4,this.row*BS+BS)
+		c.stroke()
+	}
+	//Если змейка наткнулась на brick, заканчивать игру
+	doEqu(blo){
+		if(this.equal(blo)&&!nogameov){
+			gameOver()
+			return;
+		}
+	}
+}
+//Функция для создания игрового цикла, без него не будет ничего
+function wheele(){
+	if(window.closed){
+		pause()
+	}
+	if(best_score<score){
+		best_score=score;
+	}
+	if(borg==5&&!nogameov){
+		gameOver();
+		return;
+	}
+	if (!stopping){
+		if(Math.floor(Math.random()*49)==5&&pear.isDel()){
+				pear.move()
+		}
+		/*if(Math.floor(Math.random()*24)==0&&fruiteater.position.col==5000&&fruiteater.position.row==5600){
+			fruiteater.show()
+		}*/
+		c.fillStyle = bgcolor;
+		c.fillRect(0,0,width,height)
+		snake.move()
+		apple.draw()
+		pear.draw()
+		snake.draw()
+		/*if(!(fruiteater.position.col==5000&&fruiteater.position.row==5600)){
+			fruiteater.move()
+		}*/
+		fruiteater.draw()
+		drawBorder()
+		drawScore()
+		if(lvl==1){
+			wall_lvl1.draw()
+			wall_lvl1.equ(snake.segments[0])
+		}else if(lvl==2){
+			wall_lvl2.draw()
+			wall_lvl2.equ(snake.segments[0])
+		}else{
+			wall_lvl3.draw()
+			wall_lvl3.equ(snake.segments[0])
+		}
+		if((fruiteater.position.col>widthInB+1)||(fruiteater.position.col<0)||(fruiteater.position.row>heightInB+1)||(fruiteater.position.row <0)){fruiteater.hide()}
+		drawPause()
+		if((score>19&&lvl==1)||(score>34&&lvl==2)||(score>49&&lvl==3)){
+			c.fillStyle="Orange"
+			c.beginPath()
+			c.moveTo(646,16)
+			c.lineTo(646,29)
+			c.lineTo(658,22.5)
+			c.fill()
+		}
+	}
+	if(go){
+		setTimeout(wheele,speed)
+	}
+	}
+//Функция окончания игры
+function gameOver() {
+	if(play_sonds){
+	gaov.play()
+	}
+	if(gameover!==1){
+	gameover = true;
+	go=false;
+	borg=0//=^.^=
+	c.font = "20px Courier"
+	c.fillStyle = "White";
+	if(bgcolor=="#ffffff"){
+		c.fillStyle="Black";
+	}
+	c.textAlign = "center"
+	c.textBaseline = "middle"
+	if(eng.checked){
+	c.fillText("Game Over!",width/2,height/2)
+	}else if(ukr.checked){
+	c.fillText("Кінець гри!",width/2,height/2)
+	}else{
+	c.fillText("Конец игры!",width/2,height/2)
+	}}
+}
+//Функция перезагрузки игры, и не обязательно после её окончания
+function restart() {
+	if(!hard){
+	time=0
+	pear.hide()
+	//fruiteater.hide()
+	gameover = false;
+	go=true;
+	speed=basespeed;
+	setTimeout(wheele,speed)
+	borg=0
+	score = 0;
+	apple.move()
+	snake = new Snake()
+}
+}
+function pause(){
+	if (!gameover&&go){
+		stopping = !stopping;
+	}
+		if (stopping){
+			c.fillStyle = bgcolor;
+			c.fillRect(BS,BS,width-BS*2,height-BS*2)
+			c.font = "20px Courier"
+			c.fillStyle = "White";
+			if(bgcolor=="#ffffff"){
+				c.fillStyle="Black";
+			}
+			c.textAlign = "center"
+			c.textBaseline = "middle"
+			if(eng.checked){
+			c.fillText("Paused!",width/2,height/2)
+			}else if(ukr.checked){
+			c.fillText("Зупинено!",width/2,height/2)
+			}else{
+			c.fillText("Остановлено!",width/2,height/2)
+			}
+			drawScore()
+			drawPause()
+}}
+//Базовый класс, из него состоят элементы змейки и записана позиция яблочка
+function Block(col,row){
+	this.col = col;
+	this.row = row;
+}
+//Рисование квадратиков на координатах блока
+Block.prototype.drawSquare = function(width,height,color) {
+	var x = this.col*BS;
+	var y = this.row*BS;
+	c.fillStyle = color;
+	c.fillRect(x+(BS-width)/2,y+(BS-height)/2,width,height)
+};
+//Упрощенная функция рисования кругов, и только кругов
+function circle(x,y,rad,fillCircle) {
+	c.beginPath();
+	c.arc(x,y,rad,0,Math.PI*2,false)
+	if (fillCircle) {
+		c.fill();
+	} else {
+		c.stroke();
+	}
+}
+//Рисование кружочков на координатах блока
+Block.prototype.drawCircle = function(radi,color) {
+	var centerX = this.col*BS+BS/2;
+	var centerY = this.row*BS+BS/2;
+	c.fillStyle = color;
+	circle(centerX,centerY,BS/2-radi,true)
+}
+//Проверяет, не находится ли блок на координатах другого блока
+Block.prototype.equal = function(otherBlock) {
+	if(this.col==0){
+	this.col=widthInB-1
+	}else if(this.col==widthInB){
+	this.col=1
+	}
+	if(this.row==0){
+	this.row=heightInB-1
+	}else if(this.row==heightInB){
+	this.row=1
+	}
+	return this.col === otherBlock.col && this.row === otherBlock.row;
+};
+//Собственно змейка, а точнее её класс
+function Snake(){
+	var randomCol = Math.floor(Math.random()*(widthInB/2)+5)
+	var randomRow = Math.floor(Math.random()*(heightInB/2)+5)
+	this.segments = [
+	new Block(randomCol+6,randomRow),
+	new Block(randomCol+5,randomRow),
+	new Block(randomCol+4,randomRow),
+	new Block(randomCol+3,randomRow),
+	new Block(randomCol+2,randomRow),
+	new Block(randomCol+1,randomRow),
+	new Block(randomCol,randomRow)]
+
+	last3sec.snasegs=this.segments;
+
+	this.direction = "right";
+	this.nextDirection = "right";
+}
+//рисование змейки
+Snake.prototype.draw = function(){
+	var bs = BS-2;
+	var seg;
+	var segs = this.segments;
+	var len = segs.length
+	var head = segs[0];
+	c.fillStyle="Red"
+	c.strokeStyle="Red"
+	c.lineWidth=3
+	if (this.direction === "right"&&(((apple.position.col-head.col)>(-1)&&(apple.position.col-head.col)<3&&head.row==apple.position.row)/*||(pear.position.col-head.col)>(-1)&&(pear.position.col-head.col)<3&&head.row==pear.position.row)*/)) {
+		c.fillRect(head.col*BS+BS/2,head.row*BS+6,9,3)
+		c.beginPath()
+		c.moveTo(head.col*BS+16.5,head.row*BS+7)
+		c.lineTo(head.col*BS+23.5,head.row*BS+10)
+		c.moveTo(head.col*BS+16.5,head.row*BS+7)
+		c.lineTo(head.col*BS+23.5,head.row*BS+4)
+		c.stroke()
+	} else if(this.direction === "left"&&(((head.col-apple.position.col)>(-1)&&(head.col-apple.position.col)<3&&head.row==apple.position.row)||((head.col-pear.position.col)>(-1)&&(head.col-pear.position.col)<3&&head.row==pear.position.row))){
+		c.fillRect(head.col*BS-BS/3,head.row*BS+6,12,3)
+		c.beginPath()
+		c.moveTo(head.col*BS-1.5,head.row*BS+7)
+		c.lineTo(head.col*BS-8.5,head.row*BS+11)
+		c.moveTo(head.col*BS-1.5,head.row*BS+7)
+		c.lineTo(head.col*BS-8.5,head.row*BS+4)
+		c.stroke()
+	} else if(this.direction === "up"&&(head.row-apple.position.row)>(-1)&&(head.row-apple.position.row)<3&&head.col==apple.position.col){
+		c.fillRect(head.col*BS+6,head.row*BS-BS/3,3,8)
+		c.beginPath()
+		c.moveTo(head.col*BS+7,head.row*BS-1.5)
+		c.lineTo(head.col*BS+11,head.row*BS-8.5)
+		c.moveTo(head.col*BS+7,head.row*BS-1.5)
+		c.lineTo(head.col*BS+4,head.row*BS-8.5)
+		c.stroke()
+	} else if(this.direction === "down"&&(apple.position.row-head.row)>(-1)&&(apple.position.row-head.row)<3&&head.col==apple.position.col){
+		c.fillRect(head.col*BS+6,head.row*BS+BS/2,3,9)
+		c.beginPath()
+		c.moveTo(head.col*BS+7,head.row*BS+16.5)
+		c.lineTo(head.col*BS+10,head.row*BS+23.5)
+		c.moveTo(head.col*BS+7,head.row*BS+16.5)
+		c.lineTo(head.col*BS+4,head.row*BS+23.5)
+		c.stroke()
+	}
+	var pretail = segs[len-2]
+	var tail = segs[len-1];
+	colorIndex = 0;
+	c.fillStyle = colOfSnakeSeg[colorIndex];
+	if (this.direction === "right") {
+		c.fillRect(head.col*BS,head.row*BS+1,BS/2,BS-2)
+	} else if(this.direction === "left"){
+		c.fillRect(head.col*BS+BS/2,head.row*BS+1,BS/2,BS-2)
+	} else if(this.direction === "up"){
+		c.fillRect(head.col*BS+1,head.row*BS+BS/2,BS-2,BS/2)
+	} else if(this.direction === "down"){
+		c.fillRect(head.col*BS+1,head.row*BS,BS-2,BS/2)
+	}
+	head.drawCircle(1,colOfSnakeSeg[colorIndex])
+	c.fillStyle="Black"
+	if(this.direction=="left"||this.direction=="right"){
+	circle(head.col*BS+BS/2,head.row*BS+5.15,1.5,true)
+	circle(head.col*BS+BS/2,head.row*BS+9.85,1.5,true)
+	}else{
+	circle(head.col*BS+5.15,head.row*BS+BS/2,1.5,true)
+	circle(head.col*BS+9.85,head.row*BS+BS/2,1.5,true)
+	}
+	for (var i = 1;i<len-1;i++){
+		seg=segs[i]
+		if(colorIndex === 0){
+			colorIndex = 1;
+		}else if(colorIndex === 1){
+			colorIndex = 2;
+		}else if(colorIndex === 2){
+			colorIndex = 3;
+		}else if(colorIndex === 3){
+			colorIndex = 4;
+		}else if(colorIndex === 4){
+			colorIndex = 5;
+		}else if(colorIndex === 5){
+			colorIndex = 6;
+		}else if(colorIndex === 6){
+			colorIndex = 0;
+		}
+		c.fillStyle = colOfSnakeSeg[colorIndex];
+		if(seg.ate){
+		circle(seg.col*BS+BS/2,seg.row*BS+BS/2,BS/2+1,true)
+		}else{
+		seg.drawCircle(1,colOfSnakeSeg[colorIndex])}
+		if(bigPerOne(seg.col,segs[i-1].col)&&bigPerOne(segs[i+1].col,seg.col)){
+		seg.drawSquare(BS,bs,colOfSnakeSeg[colorIndex])
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+4.5,seg.row*BS+4,1.4,true)
+		circle(seg.col*BS+4.5,seg.row*BS+11,1.4,true)
+		circle(seg.col*BS+8.5,seg.row*BS+7.5,1.4,true)
+		}
+		else if(bigPerOne(segs[i-1].col,seg.col)&&bigPerOne(seg.col,segs[i+1].col)){
+		seg.drawSquare(BS,bs,colOfSnakeSeg[colorIndex])
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+4.5,seg.row*BS+7.5,1.4,true)
+		circle(seg.col*BS+8.5,seg.row*BS+4,1.4,true)
+		circle(seg.col*BS+8.5,seg.row*BS+11,1.4,true)
+		}
+		else if(bigPerOne(seg.row,segs[i-1].row)&&bigPerOne(segs[i+1].row,seg.row)){
+		seg.drawSquare(bs,BS,colOfSnakeSeg[colorIndex])
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+4,seg.row*BS+4.5,1.4,true)
+		circle(seg.col*BS+11,seg.row*BS+4.5,1.4,true)
+		circle(seg.col*BS+7.5,seg.row*BS+8.5,1.4,true)
+		}
+		else if(bigPerOne(segs[i-1].row,seg.row)&&bigPerOne(seg.row,segs[i+1].row)){
+		seg.drawSquare(bs,BS,colOfSnakeSeg[colorIndex])
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+7.5,seg.row*BS+4.5,1.4,true)
+		circle(seg.col*BS+4,seg.row*BS+8.5,1.4,true)
+		circle(seg.col*BS+11,seg.row*BS+8.5,1.4,true)
+		
+		}else if((bigPerOne(seg.col,segs[i-1].col)&&bigPerOne(segs[i+1].row,seg.row))||
+		(bigPerOne(seg.col,segs[i+1].col)&&bigPerOne(segs[i-1].row,seg.row))){
+		c.fillRect(seg.col*BS,seg.row*BS+1,BS/2,BS-2)
+		c.fillRect(seg.col*BS+1,seg.row*BS+BS/2,BS-2,BS/2)
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+5,seg.row*BS+5,1.4,true)
+		circle(seg.col*BS+10,seg.row*BS+10,1.4,true)
+
+		}else if((bigPerOne(segs[i-1].col,seg.col)&&bigPerOne(seg.row,segs[i+1].row))||
+		(bigPerOne(segs[i+1].col,seg.col)&&bigPerOne(seg.row,segs[i-1].row))){
+		c.fillRect(seg.col*BS+1,seg.row*BS,BS-2,BS/2)
+		c.fillRect(seg.col*BS+BS/2,seg.row*BS+1,BS/2,BS-2)
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+5,seg.row*BS+5,1.4,true)
+		circle(seg.col*BS+10,seg.row*BS+10,1.4,true)
+
+		}else if((bigPerOne(segs[i-1].col,seg.col)&&bigPerOne(segs[i+1].row,seg.row))||
+		(bigPerOne(segs[i+1].col,seg.col)&&bigPerOne(segs[i-1].row,seg.row))){
+		c.fillRect(seg.col*BS+BS/2,seg.row*BS+1,BS/2,BS-2)
+		c.fillRect(seg.col*BS+1,seg.row*BS+BS/2,BS-2,BS/2)
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+5,seg.row*BS+10,1.4,true)
+		circle(seg.col*BS+10,seg.row*BS+5,1.4,true)
+
+		}else if((bigPerOne(seg.col,segs[i+1].col)&&bigPerOne(seg.row,segs[i-1].row))||
+		(bigPerOne(seg.col,segs[i-1].col)&&bigPerOne(seg.row,segs[i+1].row))){
+		c.fillRect(seg.col*BS,seg.row*BS+1,BS/2,BS-2)
+		c.fillRect(seg.col*BS+1,seg.row*BS,BS-2,BS/2)
+		c.fillStyle="Yellow"
+		circle(seg.col*BS+10,seg.row*BS+5,1.4,true)
+		circle(seg.col*BS+5,seg.row*BS+10,1.4,true)
+		}
+	}
+	if(colorIndex === 0){
+		colorIndex = 1;
+	}else if(colorIndex === 1){
+		colorIndex = 2;
+	}else if(colorIndex === 2){
+		colorIndex = 3;
+	}else if(colorIndex === 3){
+		colorIndex = 4;
+	}else if(colorIndex === 4){
+		colorIndex = 5;
+	}else if(colorIndex === 5){
+		colorIndex = 6;
+	}else if(colorIndex === 6){
+		colorIndex = 0;
+	}
+	c.fillStyle = colOfSnakeSeg[colorIndex];
+	tail.drawCircle(1,colOfSnakeSeg[colorIndex])
+	if (tail.col>pretail.col) {
+		c.fillRect(tail.col*BS,tail.row*BS+1,BS/2,BS-2)
+		c.fillStyle="Yellow"
+		circle(tail.col*BS+7.5,tail.row*BS+5,1.4,true)
+		circle(tail.col*BS+7.5,tail.row*BS+10,1.4,true)
+	} else if(tail.col<pretail.col){
+		c.fillRect(tail.col*BS+BS/2,tail.row*BS+1,BS/2,BS-2)
+		c.fillStyle="Yellow"
+		circle(tail.col*BS+7.5,tail.row*BS+5,1.4,true)
+		circle(tail.col*BS+7.5,tail.row*BS+10,1.4,true)
+	} else if(tail.row<pretail.row){
+		c.fillRect(tail.col*BS+1,tail.row*BS+BS/2,BS-2,BS/2)
+		c.fillStyle="Yellow"
+		circle(tail.col*BS+5,tail.row*BS+7.5,1.4,true)
+		circle(tail.col*BS+10,tail.row*BS+7.5,1.4,true)
+	} else if(tail.row>pretail.row){
+		c.fillRect(tail.col*BS+1,tail.row*BS,BS-2,BS/2)
+		c.fillStyle="Yellow"
+		circle(tail.col*BS+5,tail.row*BS+7.5,1.4,true)
+		circle(tail.col*BS+10,tail.row*BS+7.5,1.4,true)
+	}
+	c.fillStyle="SkyBlue"
+	c.beginPath()
+	c.moveTo(head.col*BS+8,head.row*BS-BS/2)
+	c.lineTo(head.col*BS+2,head.row*BS+3)
+	c.lineTo(head.col*BS+14,head.row*BS+3)
+	c.fill()
+	c.fillStyle="Red"
+	circle(head.col*BS+8.5,head.row*BS-9,3,true)
+	circle(head.col*BS+8,head.row*BS-2,1,true)
+	circle(head.col*BS+5,head.row*BS+1,1,true)
+	circle(head.col*BS+10,head.row*BS+1,1,true)
+}
+//стена (преграда)
+function Wall(bricks){
+	this.bricks=bricks
+}
+//создание стены
+var wall_lvl1 = new Wall([
+	new Brick(15,15),
+	new Brick(15,14),
+	new Brick(14,14),
+	new Brick(14,13),
+	new Brick(15,16),
+	new Brick(14,18),
+	new Brick(15,17)
+	])
+var wall_lvl2 = new Wall([
+	new Brick(15,15),
+	new Brick(15,14),
+	new Brick(14,14),
+	new Brick(14,13),
+	new Brick(15,16),
+	new Brick(14,18),
+	new Brick(16,15),
+	new Brick(15,13),
+	new Brick(14,17),
+	new Brick(15,18)
+	])
+var wall_lvl3 = new Wall([
+	new Brick(15,15),
+	new Brick(15,14),
+	new Brick(14,14),
+	new Brick(14,13),
+	new Brick(15,16),
+	new Brick(14,18),
+	new Brick(16,15),
+	new Brick(15,13),
+	new Brick(14,17),
+	new Brick(15,18),
+	new Brick(16,18),
+	new Brick(17,14),
+	new Brick(16,14),
+	new Brick(14,12),
+	new Brick(18,14)
+	])
+//рисование стены
+Wall.prototype.draw=function(){
+var brs=this.bricks
+for(let i=0;i<this.bricks.length;i++){
+brs[i].draw()
+}
+}
+//если змейка ударилась о стену, закончить игру
+Wall.prototype.equ = function(block){
+var brs=this.bricks
+for(let i=0;i<this.bricks.length;i++){
+brs[i].doEqu(block)
+}
+}
+//функция передвижения змейки+проверки на столкновения
+Snake.prototype.move = function() {
+	var head = this.segments[0];
+	var newHead;
+	this.direction = this.nextDirection;
+	if (this.direction === "right"){
+		newHead = new Block(head.col+1,head.row)
+	} else if (this.direction === "down") {
+		newHead = new Block(head.col,head.row+1)
+	} else if (this.direction === "left") {
+		newHead = new Block(head.col-1,head.row)
+	} else if (this.direction === "up") {
+		newHead = new Block(head.col,head.row-1)
+	}
+	var snags = this.segments
+	setTimeout(function(){
+	last3sec.snasegs=snags;
+	last3sec.score=score;
+	},3000)
+	if(this.checkCollision(newHead)&&!nogameov){
+		gameOver()
+		return;
+	}
+
+	this.segments.unshift(newHead)
+	
+	/*if (newHead.equal(fruiteater.position)) {
+		fruiteater.hide()
+		fruiteater.stope(false)
+		if(fruiteater.stopping!=true){
+		if(play_sonds){
+			scorr.play()
+		}
+		score+=5
+		nogameov=true
+		if(!pefu.selected){
+			setTimeout(function(){
+				nogameov=false;
+			},5000)
+		}}else{
+			apple.move()
+		}
+	}
+
+	if (apple.position.equal(fruiteater.position)) {
+		fruiteater.stope(true)
+		apple.position=new Block(9500,6875)
+	}
+
+	if (pear.position.equal(fruiteater.position)) {
+		fruiteater.stope(true)
+		pear.position=new Block(9500,6875)
+	}*/
+
+	if (newHead.equal(pear.position)) {
+		pear.hide()
+		if(play_sonds){
+			scorr.play()
+		}
+		score+=3
+		nogameov=true
+		if(!pefu.selected){
+			setTimeout(function(){
+				nogameov=false;
+			},5000)
+		}
+	}
+
+	if (newHead.equal(apple.position)) {
+		if(play_sonds){
+		scorr.play()
+		}
+		if(apple.size==0){
+			score++;
+		}else{
+			score+=2;
+		}
+		newHead.ate=true
+		apple.move();
+	} else if(!nodelseg){
+		this.segments.pop()
+	}
+};
+//функция проверки змейки на столкновения
+Snake.prototype.checkCollision = function() {
+	var head = this.segments[0];
+	var leftCollision = (head.col === 0)
+	var topCollision = (head.row === 0)
+	var rightCollision = (head.col === widthInB-1)
+	var bottomCollision = (head.row === heightInB-1)
+
+	var wallCollision = leftCollision || topCollision || rightCollision || bottomCollision
+
+	var selfCollision = false;
+	if(snake.segments.length!=2){
+	for (var j = 1; j < this.segments.length; j++) {
+		if (head.equal(this.segments[j])) {
+			selfCollision = true;
+		}
+	}}
+
+	return wallCollision || selfCollision;
+};
+//установление направления змейки, паузы, долга
+Snake.prototype.setDirection = function(newDirection) {
+	if (newDirection === "up" && this.direction === "down") {
+		return;
+	} else if (newDirection === "right" && this.direction === "left") {
+		return;
+	} else if (newDirection === "down" && this.direction === "up") {
+		return;
+	} else if (newDirection === "left" && this.direction === "right") {
+		return;
+	} else if (newDirection === "restart"){
+		restart()
+	}else if(newDirection === "enter"){
+	doin()
+	} else if (newDirection === "stop"&&!ctrl){
+		pause()
+	} else if (!ctrl&&(newDirection === "left" || newDirection === "right" ||
+		newDirection === "up" || newDirection === "down")){
+		if(play_sonds){
+		turning.play()}
+	this.nextDirection = newDirection;
+	} else if(newDirection==="shift"){
+		if(play_sonds){
+		adddebt.play()}	
+	if(score>0){
+		if(borg<1){
+		speed=100
+		score-=1
+		setTimeout(function(){
+			speed=basespeed
+		},3500)}else{
+		score-=1;
+		borg-=1;
+		}
+	} else if(newDirection=="last"){
+		apple.position=last3sec.apple;
+		snake.segments=last3sec.snasegs;
+		score=last3sec.score;
+		alert("flud")
+	}else{
+		speed=75
+		borg+=1
+		setTimeout(function(){
+			speed=basespeed
+		},3500)
+	}
+	} else if(newDirection=="ctrl"){
+		ctrl=!ctrl
+	}
+};
+//класс яблока, их ведь можно создать несколько!
+var Apple = function(){
+	this.position = new Block(11,11);
+	this.randomColor = colorOfApple[Math.floor(Math.random()*colorOfApple.length)]
+	var randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+	var randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+	var pos = new Block(randomCol, randomRow)
+	if(lvl==1){
+		while(pos.equal(snake.segments[0])||wall_lvl1.equ(pos)){
+			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+			randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+			pos = new Block(randomCol, randomRow)
+		}
+	}else if(lvl==2){
+		while(pos.equal(snake.segments[0])||wall_lvl2.equ(pos)){
+			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+			randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+			pos = new Block(randomCol, randomRow)
+		}
+	}else if(lvl==3){
+		while(pos.equal(snake.segments[0])||wall_lvl3.equ(pos)){
+			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+			randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+			pos = new Block(randomCol, randomRow)
+		}
+	}
+	this.size=Math.floor(Math.random()*2)
+	if(this.size==1){
+		this.size=Math.floor(Math.random()*2)
+	}
+	if(this.size==1){
+		this.size=Math.floor(Math.random()*2)
+	}
+	last3sec.apple=this.position;
+}
+
+Apple.prototype.draw = function() {
+	if(this.size==0){
+		this.position.drawCircle(1.5,this.randomColor);
+		c.fillStyle=bgcolor
+		c.fillRect(this.position.col*BS,this.position.row*BS,BS,1.5)
+		circle(this.position.col*BS+BS/2,this.position.row*BS+1,2,true)
+		c.fillRect(this.position.col*BS,this.position.row*BS+BS-1.5,BS,1.5)
+		circle(this.position.col*BS+BS/2,this.position.row*BS+BS-1,2,true)
+		c.fillStyle="SaddleBrown"
+		c.fillRect(this.position.col*BS+BS/2,this.position.row*BS-2,2,4)
+	}else{
+		this.position.drawCircle(0.5,this.randomColor);
+		c.fillStyle=bgcolor
+		c.fillRect(this.position.col*BS,this.position.row*BS,BS,1.5)
+		circle(this.position.col*BS+BS/2,this.position.row*BS,2.5,true)
+		c.fillRect(this.position.col*BS,this.position.row*BS+BS-1.5,BS,1.5)
+		circle(this.position.col*BS+BS/2,this.position.row*BS+BS,2.5,true)
+		c.fillStyle="SaddleBrown"
+		c.fillRect(this.position.col*BS+BS/2,this.position.row*BS-3,2,5)
+	}
+};
+
+var snake = new Snake()
+Apple.prototype.move = function() {
+	this.randomColor = colorOfApple[Math.floor(Math.random()*colorOfApple.length)]
+	var randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+	var randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+	var pos = new Block(randomCol, randomRow)
+	if(lvl==1){
+		while(pos.equal(snake.segments[0])||wall_lvl1.equ(pos)){
+			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+			randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+			pos = new Block(randomCol, randomRow)
+		}
+	}else if(lvl==2){
+		while(pos.equal(snake.segments[0])||wall_lvl2.equ(pos)){
+			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+			randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+			pos = new Block(randomCol, randomRow)
+		}
+	}else if(lvl==3){
+		while(pos.equal(snake.segments[0])||wall_lvl3.equ(pos)){
+			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+			randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+			pos = new Block(randomCol, randomRow)
+		}
+	}
+	this.size=Math.floor(Math.random()*2)
+	if(this.size==1){
+		this.size=Math.floor(Math.random()*2)
+	}
+	if(this.size==1){
+		this.size=Math.floor(Math.random()*2)
+	}
+	this.position = pos;
+	setTimeout(function(){
+		last3sec.apple=pos;
+	},3000)
+};
+class Pear{
+	constructor(){	
+		this.position = new Block(500000,1000000);
+		this.hide()
+	}
+	hide(){
+		this.position=new Block(7000,7000)
+	}
+	move(){
+		var randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+		var randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+		var pos = new Block(randomCol, randomRow)
+		if(lvl==1){
+			while(pos.equal(snake.segments[0])||wall_lvl1.equ(pos)){
+				randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+				randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+				pos = new Block(randomCol, randomRow)
+			}
+		}else if(lvl==2){
+			while(pos.equal(snake.segments[0])||wall_lvl2.equ(pos)){
+				randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+				randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+				pos = new Block(randomCol, randomRow)
+			}
+		}else if(lvl==3){
+			while(pos.equal(snake.segments[0])||wall_lvl3.equ(pos)){
+				randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+				randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+				pos = new Block(randomCol, randomRow)
+			}
+		}
+		this.position=pos
+		if(lvl==1){
+			setTimeout(function(){
+				pear.hide()
+			},9000)
+		}else if(lvl==2){
+			setTimeout(function(){
+				pear.hide()
+			},7250)
+		}else if(lvl==3){
+			setTimeout(function(){
+				pear.hide()
+			},5500)
+		}
+	}
+	isDel(){
+		if(pear.position.col==7000&&pear.position.row==7000){
+			return true;
+		}
+		return false;
+	}
+	draw(){
+		//this.position.drawCircle(1.5,this.randomColor);
+		c.fillStyle="Yellow"
+		circle(this.position.col*BS+BS/2,this.position.row*BS+4,3,true)
+		c.fillRect(this.position.col*BS+5,this.position.row*BS+4,3,5)
+		circle(this.position.col*BS+BS/2,this.position.row*BS+10,5,true)
+		c.fillStyle="Black"
+		circle(this.position.col*BS+BS/2,this.position.row*BS,1.5,true)
+		c.fillStyle="SaddleBrown"
+		c.fillRect(this.position.col*BS+BS/2-1,this.position.row*BS-2,2,3)
+	}
+}
+class Fruit_Eater{
+	constructor(){
+		this.position=new Block(5000,5600);
+		this.direction="down";
+		this.stopping=false;
+	}
+	show(){
+		var ran=Math.floor(Math.random()*4);
+		if(pear.isDel()){
+			if(ran==0){
+				this.position.col=1;
+				this.position.row=apple.position.row;
+				this.direction="right";
+			}else if(ran==1){
+				this.position.col=apple.position.col;
+				this.position.row=1;
+				this.direction="down";
+			}else if(ran==2){
+				this.position.col=widthInB;
+				this.position.row=apple.position.row;
+				this.direction="left";
+			}else{
+				this.position.col=apple.position.col;
+				this.position.row=heightInB;
+				this.direction="up";
+			}
+		}else{
+			if(ran==0){
+				this.position.col=1;
+				this.position.row=pear.position.row;
+				this.direction="right";
+			}else if(ran==1){
+				this.position.col=pear.position.col;
+				this.position.row=1;
+				this.direction="down";
+			}else if(ran==2){
+				this.position.col=widthInB;
+				this.position.row=pear.position.row;
+				this.direction="left";
+			}else{
+				this.position.col=pear.position.col;
+				this.position.row=heightInB;
+				this.direction="up";
+			}
+		}
+	}
+	move(){
+		if(!this.stopping){
+		if(this.direction=="right"){
+			this.position.col++;
+		}else if(this.direction=="left"){
+			this.position.col--;
+		}else if(this.direction=="down"){
+			this.position.row++;
+		}else if(this.direction=="up"){
+			this.position.row--;
+		}}
+	}
+	stope(stopp){
+		this.stopping=stopp;
+	}
+	hide(){
+		this.position=new Block(5000,5600);
+	}
+	draw(){
+		this.position.drawSquare(BS,BS,"SkyBlue");
+		c.fillStyle="Black"
+		circle(this.position.col+5,this.position.row+5,4,true)
+		circle(this.position.col+10,this.position.row+5,4,true)
+	}
+}
+var apple = new Apple()
+var pear = new Pear()
+var fruiteater=new Fruit_Eater()
+var keys = {32:"stop",87:"up",65:"left",83:"down",68:"right",
+82:"restart",38:"up",37:"left",39:"right",40:"down",16:"shift",13:"enter",17:"ctrl",76:"last"}
+
+
+$("canvas").click(function(e){
+if((292,5<e.pageX&&e.pageX<322,5)&&(607<e.pageY&&e.pageY<637)){
+$("canvas").dblclick(function(){
+	restart()
+	return;
+})
+pause()
+}else if((630<e.pageX&&e.pageX<645)&&(15<e.pageY&&e.pageY<30)&&(score>19&&lvl==1)||(score>34&&lvl==2)||(score>49&&lvl==3)||lvl==4){
+lvl++
+if(lvl==2){
+score-=20
+}else if(lvl==3){score-=35}else if(lvl==4){
+	lvl=1
+	go=false
+	setTimeout(function(){
+	c.fillStyle = bgcolor;
+	c.fillRect(BS,BS,width-BS*2,height-BS*2)
+	c.font = "20px Courier"
+	c.fillStyle = "White";
+	c.textAlign = "center"
+	c.textBaseline = "middle"
+	c.fillText("You win! Congratulations!",width/2,height/2)},speed)
+	drawBorder()
+	drawScore()
+	drawPause()
+}}
+//console.log("x: "+e.pageX+", y: "+e.pageY)
+})
+	setTimeout(wheele,speed)
+$("body").keydown(function(event) {
+	var keyName = keys[event.keyCode]
+	snake.setDirection(keyName)
+})
+$("canvas").mousemove(function(mouse){
+	if(!ctrl&&!gameover&&isphone.checked){
+		coords.push([mouse.pageX,mouse.pageY])
+	if(coords.length=3){
+		coords.shift()
+	}
+	if((Math.abs(coords[0][0]-coords[1][0])>8)||(Math.abs(coords[0][1]-coords[1][1])>8)){
+		if(Math.abs(coords[0][0]-coords[1][0])>Math.abs(coords[0][1]-coords[1][1])){
+
+			if((coords[0][0]-coords[1][0])>0){	
+				snake.setDirection("left")
+			}else{
+				snake.setDirection("right")
+			}
+		}else{
+			if((coords[0][1]-coords[1][1])>0){
+				snake.setDirection("up")
+			}else{
+				snake.setDirection("down")
+			}
+		}
+	}
+	}
+	}
+)
+</script>
+<script id="console">
+var cons = document.getElementById("console");
+var input = "";
+var password = "1"
+var unlocked = false
+var hard=false
+var nogameov = false
+var nodelseg = false
+function doin(){
+input=cons.value.toLowerCase()
+cons.value="";
+if(input==password){
+unlocked=!unlocked
+if(unlocked){
+cons.type=password
+}else{
+cons.type=text
+}
+}
+if(unlocked){
+if(input.slice(0,8)=="setscore"){
+score = input.slice(9);
+}else if(input=="nowall"){
+wall.bricks=[]
+}else if(input.slice(0,4)=="go"){
+go=input.slice(5)
+if(go){
+wheele()
+}
+}else if(input="чеснок"){
+	window.close()
+}else if(input=="sixborg"){
+	borg=6;
+}else if(input=="gaov"){
+	gameOver()	
+}else if(input=="dowall"){
+	wall.bricks=[
+		new Brick(15,15),
+		new Brick(15,14),
+		new Brick(14,14),
+		new Brick(14,13)
+	]
+}else if(input.slice(0,7)=="setborg"){
+	borg=input.slice(8);
+}else if(input.slice(0,8)=="setspeed"){
+	basespeed=input.slice(9);
+	speed=basespeed
+}else if(input=="twoseg"){
+snake.segments=[snake.segments[0],snake.segments[snake.segments.length]]
+}else if(input=="apptohead"){
+	apple.position.col=snake.segments[0].col
+	apple.position.row=snake.segments[0].row
+}else if(input=="hardcore"){
+hard=true
+}else if(input=="nohard"){
+hard=false
+}else if(input=="nogaov"){
+nogameov=true
+}else if(input=="dogaov"){
+nogameov=false
+}else if(input=="autoclick"){
+
+autoclick = setInterval(function(){
+if(pear.isDel){
+	var apply=apple;
+}else{
+	var apply=pear;
+}
+var selfCollision=false;
+var leftSelfCollis=false;
+var upSelfCollis=false;
+if(snake.direction=="left"){
+	for (var j = 1; j < snake.segments.length; j++) {
+		if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
+			selfCollision = true;
+		}
+	}
+	if(selfCollision){
+		for (var j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
+				upSelfCollis = true;
+			}
+		}
+		if(!upSelfCollis){
+			snake.setDirection("up")
+		}else{
+			snake.setDirection("down")
+		}
+	}
+}else if(snake.direction=="right"){
+	for (var j = 1; j < snake.segments.length; j++) {
+		if ((new Block(snake.segments[0].col+1,snake.segments[0].row)).equal(snake.segments[j])) {
+			selfCollision = true;
+		}
+	}
+	if(selfCollision){
+		for (var j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
+				upSelfCollis = true;
+			}
+		}
+		if(!upSelfCollis){
+			snake.setDirection("up")
+		}else{
+			snake.setDirection("down")
+		}}
+}else if(snake.direction=="up"){
+	for (var j = 1; j < snake.segments.length; j++) {
+		if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
+			selfCollision = true;
+		}
+	}
+	if(selfCollision){
+		for (var j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
+				leftSelfCollis = true;
+			}
+		}
+		if(!leftSelfCollis){
+			snake.setDirection("left")
+		}else{
+			snake.setDirection("right")
+		}
+	}
+}else{
+	for (let j = 1; j < snake.segments.length; j++) {
+		if ((new Block(snake.segments[0].col,snake.segments[0].row+1)).equal(snake.segments[j])) {
+			selfCollision = true;
+		}
+	}
+	if(selfCollision){
+		for (var j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
+				leftSelfCollis = true;
+			}
+		}
+		if(!leftSelfCollis){
+			snake.setDirection("left")
+		}else{
+			snake.setDirection("right")
+		}
+	}
+}
+var rand = Math.floor(Math.random()*2)
+if(rand==0){
+	selfCollision = false;
+	if(apply.position.col<snake.segments[0].col){
+		for (let j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
+				selfCollision = true;
+			}
+		}
+		if(!selfCollision){
+			snake.setDirection("left")
+		}
+	}else if(apply.position.col>snake.segments[0].col){
+		for (let j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col+1,snake.segments[0].row)).equal(snake.segments[j])) {
+				selfCollision = true;
+			}
+		}
+		if(!selfCollision){
+			snake.setDirection("right");
+		}
+	}
+}else{
+	if(apply.position.row<snake.segments[0].row){
+		for (let j = 1; j < snake.segments.length; j++) {
+			if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
+				selfCollision = true;
+			}
+		}
+		if(!selfCollision){
+			snake.setDirection("up")
+		}
+	}else if(apply.position.row>snake.segments[0].row){
+		for(let j = 1; j < snake.segments.length; j++) {
+			if (new Block(snake.segments[0].col,snake.segments[0].row+1).equal(snake.segments[j])) {
+				selfCollision = true;
+			}
+		}
+		if(!selfCollision){
+			snake.setDirection("down");
+		}
+	}}
+},60);
+}else if(input=="noaucl"){
+clearInterval(autoclick)
+}else if(input.slice(0,7)=="nodelseg"){	
+nodelseg=input.slice(9)
+}else if(input=="delseg"){
+snake.segments.pop()
+}else if(input=="noapply"){
+apple.position.col=1000
+apple.position.row=1000
+}else if(input=="doapply"){
+apple.move()
+}else if(input.slice(0,4)=="play"){
+window[input.slice(5)].play()
+}else if(input=="snakelen"){
+alert(snake.segments.length)
+}}else{
+alert(input)
+}
+}
+//setscore 1
+//setspeed 1
+//setborg 1
+</script>
+</body>
+</html>
