@@ -1,135 +1,313 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Snake Game!</title>
-	<meta charset="UTF-8">
-	<style type="text/css">
-       #left { position: absolute; left: 0; top: 0; width: 50%; }
-       #right { color: white; position: absolute; right: 0; top: 0; width: 50%; }
-	html{
-		cursor: pointer;
-		font-weight: 400;
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<title>Snake Game!</title>
+		<meta charset="UTF-8">
+		<style type="text/css">
+		#left {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 50%;
+		}
+		#right {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 50%;
+			margin-left: 700px;
+		}
+		#nick{
+		display: inline-block;
+		font-family: 'Montserrat', sans-serif;
+	  letter-spacing: 2px;
+	  background: none;
+	  border: none;
+	  text-transform: none;
+		}
+		html{
+			cursor: pointer;
+			font-weight: 400;
+		}
+		input {
+	  display: inline-block;
+	  padding: 4px 6px;
+	  border-radius: 10px;
+	  font-family: 'Montserrat', sans-serif;
+	  text-transform: uppercase;
+	  letter-spacing: 2px;
+	  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+	  background-size: 90% auto;
+	  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+	  transition: .5s;
 	}
-	input {
-  display: inline-block;
-  color: white;
-  padding: 4px 6px;
-  border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
-  background-size: 90% auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-  transition: .5s;
-}
-button {
-  display: inline-block;
-  color: white;
-  padding: 4px 6px;
-  border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
-  background-size: 90% auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-  transition: .5s;
-}
-select {
-  display: inline-block;
-  color: white;
-  padding: 4px 6px;
-  border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
-  background-size: 90% auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-  transition: .5s;
-}
-option {
-  color: black;
-}
-#show_setts {
-  position: absolute;
-  margin: 1.6px;
-  background-color: red;
-  display: block;
-  position: relative;
-  cursor: pointer;
-  outline: none;
-  user-select: none;
-}
-#show_setts:checked {
-  margin: 1.8px;
-  background-color: gray;
+	button {
+		color: white;
+	  display: inline-block;
+	  padding: 4px 6px;
+	  border-radius: 10px;
+	  font-family: 'Montserrat', sans-serif;
+	  text-transform: uppercase;
+	  letter-spacing: 2px;
+	  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+	  background-size: 90% auto;
+	  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+	  transition: .5s;
+	}
+		select {
+	  display: inline-block;
+	  color: white;
+	  padding: 4px 6px;
+	  border-radius: 10px;
+	  font-family: 'Montserrat', sans-serif;
+	  text-transform: uppercase;
+	  letter-spacing: 2px;
+	  background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+	  background-size: 90% auto;
+	  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+	  transition: .5s;
+	}
+	option {
+	  background-color: black;
+	}
+	#show_setts {
+	  position: absolute;
+	  margin: 1.6px;
+	  background-color: red;
+	  display: block;
+	  position: relative;
+	  cursor: pointer;
+	  outline: none;
+	  user-select: none;
+	}
+	#show_setts:checked {
+	  margin: 1.8px;
+	  background-color: gray;
+	}
+
+		</style>
+		<style id="style">
+	#right {color: white;}
+	input{color: white;}
+		</style>
+	}
+	</head>
+	<body bgcolor="Black">
+		<div id="left"><canvas width="660" id="c" height="660">Hmm... Sorry, but your browser can't draw :'(</canvas></div>
+		<div id="right"><br><h2>
+			&copy;Lesin Yehor 2020<br><b><I>
+			Control Keys :<br><ul>
+			<li>R - restart;</li>
+			<li>W/&uarr; - turn up;</li>
+			<li>A/&larr; - turn left</li>
+			<li>S/&darr; - turn down</li>
+			<li>D/&rarr; - turn right</li>
+			<li>Q - turn left-up</li>
+			<li>E - turn right-up</li>
+			<li>Z - turn left-down</li>
+			<li>C - turn right-down</li>
+			<li>Space(" ") - pause/resume</li>
+			<li>Shift - acceleration. Don't get into debt!</li>
+			<li>Ctrl - disabling snake control</li>
+		</ul></I></b></h2><br>
+		<font style="margin-left: 50px;">Show Settings<input type="checkbox" onclick="settis()" id="show_setts" checked></font>
+		<ul id="settings">
+		<div> &nbsp;</div>
+		Show Music Settings <input type="radio" onclick="showsettis()" id="showmusicsets" name="show"><br>
+		Show Gameplay Settings <input type="radio" onclick="showsettis()" id="showgamesets" name="show" checked><br>
+		Show Grafic Settings<input type="radio" onclick="showsettis()" id="showgraficsets" name="show"><br>
+		Show Text Settings<input type="radio" onclick="showsettis()" id="showlangsets" name="show"><br>
+		Show Shop Settings<input type="radio" onclick="showsettis()" id="showshopsets" name="show">
+		<div id="musicsets" style="display: none;"><div> &nbsp;</div><div id="6">Play Sounds<input type="checkbox" onclick="sonds()" id="sounds"></div></div><div id="langsets" style="display: none;"><div> &nbsp; </div><div> UA<input type="radio" id="ua" name="lang">PL<input type="radio" id="pl" name="lang"> EN<input type="radio" id="en" name="lang" checked></div><div> &nbsp; </div><input type="text" id="nick" size="20" maxlength="15" placeholder="Enter your nickname"><p></p>
+		<select onclick="setfont()">
+			<option id="courier" selected>Courier</option>
+			<option id="serif">Serif</option>
+			<option id="arial">Arial</option>
+			<option id="helvetica">Helvetica</option>
+		</select></div><div> &nbsp; </div>
+		<div id="graficsets" style="display: none;"><div> &nbsp; </div>
+		<div id="4"><input type="color" id="bgcolor"><button onclick="dobgcol()">Set Background</button></div>
+		<li>Rainbow<input type="radio" id="rabo" name="colors"></li>
+		<li>Yellow<input type="radio" id="yell" name="colors"></li>
+		<li>Two Colors(selecting)<input type="radio" id="2color" checked name="colors"> &nbsp; <input type="color" id="col_change2_1" value="#FF0000"><input type="color" id="col_change2_2" value="#0000FF"></li>
+		<li>One Color(selecting)<input type="radio" id="1color" name="colors"> &nbsp; <input type="color" id="col_change1" value="#FFFFFF"></li>
+		<li><button onclick="checkCol()">Set it!</button></li>
+	</div><div> &nbsp; </div><div style="display: block;" id="gamesets">
+		Code of Generation: <div id="code"></div>
+		<br>
+		<div id="3"><input type="password" id="console" placeholder="nothing here"><button onclick="doin()">Do</button></div><br>
+		<select>
+		  <option id="peaceful">Peaceful</option>
+		  <option id="easy">Easy</option>
+	 	  <option id="normal" selected>Normal</option>
+		  <option id="hardcore">Hardcore</option>
+		</select><button onclick="diffic()">Set</button></div><div id="shopsets" style="display: none;">
+		<table>
+			<tr>
+				<td>Hats<input type="radio" onclick="showshop()" id="showhatshop" name="shops" checked></td>
+				<td>Apples<input type="radio" onclick="showshop()" id="showappleshop" name="shops"></td>
+				<td>Spots' Colors<input type="radio" onclick="showshop()" id="showtailshop" name="shops"></td>
+				<td>Eyes' Colors<input type="radio" onclick="showshop()" id="showeyeshop" name="shops"></td>
+			</tr>
+		</table>
+		<div id="hats"><ul>
+			<li>None<button id="nonein" onclick='setHatSkin("none")'>Setted</button></li>
+			<li>Partyhat<button id="partyhatin" onclick='buySkin("partyhat")'>Buy(Cost:3)</button></li>
+			<li>Crown<button id="crownin" onclick='buySkin("crown")'>Buy(Cost:5)</button></li>
+			<li>Top Hat<button id="tophatin" onclick='buySkin("tophat")'>Buy(Cost:7)</button></li>
+		</ul></div>
+		<div id="apples" style="display: none;"><ul>
+			<li>None<button id="noneon" onclick='setAppleSkin("none")'>Setted</button></li>
+			<li>Sweets<button id="sweetson" onclick='buySkin("sweets")'>Buy(Cost:3)</button></li>
+			<li>Golden Apple<button id="goldenappon" onclick='buySkin("goldenapp")'>Buy(Cost:5)</button></li>
+			<li>Wormy Apple<button id="wormyappon" onclick='buySkin("wormyapp")'>Buy(Cost:7)</button></li>
+		</ul></div>
+			<div id="spots" style="display:none"><ul>
+			<li>No Spots<button id="noat" onclick='buySkin("nospots")'>Buy(Cost:7)</button></li>
+			<li>Yellow Spots<button id="yellowat" onclick='setSpotColor("yellow")'>Setted</button></li>
+			<li>Green Spots<button id="greenat" onclick='buySkin("greenspots")'>Buy(Cost:3)</button></li>
+			<li>Blue Spots<button id="blueat" onclick='buySkin("bluespots")'>Buy(Cost:5)</button></li>
+		</ul></div>
+			<div id="eyes" style="display:none"><ul>
+			<li>No Eyes<button id="nofor" onclick='buySkin("noeyes")'>Buy(Cost:7)</button></li>
+			<li>Black Eyes<button id="blackfor" onclick='setEyesColor("black")'>Setted</button></li>
+			<li>Green Eyes<button id="greenfor" onclick='buySkin("greeneyes")'>Buy(Cost:3)</button></li>
+			<li>Blue Eyes<button id="bluefor" onclick='buySkin("blueeyes")'>Buy(Cost:5)</button></li>
+		</ul></div>
+		</div>  <!--div>It's Phone?<input type="checkbox" id="isPhone"></div-->
+		</ul></div>
+		<script src="http://code.jquery.com/jquery-2.1.0.js"></script>
+		<!--script src=""></script-->
+		<script>
+let alphabet = "abcdefghijklmnopqrstuvwxyz"
+let font = "Courier"
+let numbers = "012345679"
+let bigAlphabet = alphabet.toUpperCase()
+let latinic = alphabet + bigAlphabet;
+let code = "";
+function get(id) {
+	return document.getElementById(id)
 }
 
-	</style>
-</head>
-<body bgcolor="Black">
-	<div id="left"><canvas width="660" id="c" height="660">Hmm... Sorry, but your browser can't draw :'(</canvas></div>
-	<div id="right"><br><h2><b><I>
-		Control Keys :<br><ul>
-		<li>R - restart;</li>
-		<li>W/&uarr; - turn up;</li>
-		<li>A/&larr; - turn left</li>
-		<li>S/&darr; - turn down</li>
-		<li>D/&rarr; - turn right</li>
-		<li>Space(" ") - pause/resume</li>
-		<li>Shift - acceleration. Don't get into debt!</li>
-	</ul></I></b></h2>
-	Show Settings<input type="checkbox" onclick="settis()" id="show_setts" checked><ul id="settings">
-	<div id="3"><input type="password" id="console" placeholder="nothing here"><button onclick="doin()">Do</button></div><div id="4"><input type="color" id="bgcolor"><button onclick="dobgcol()">Set Background</button></div><div id="5"> &nbsp;</div><div id="6">Play Sounds<input type="checkbox" onclick="sonds()" id="sounds"></div><div id="7"> &nbsp; </div><div>RU<input type="radio" id="ru" name="lang"> EN<input type="radio" id="en" name="lang" checked> UA<input type="radio" id="ua" name="lang"></div><div> &nbsp; </div>
-	<li>Rainbow<input type="radio" id="rabo" name="colors"></li>
-	<li>Yellow<input type="radio" id="yell" name="colors"></li>
-	<li>Two Colors(selecting)<input type="radio" id="2color" checked name="colors"> &nbsp; <input type="color" id="col_change2_1" value="#FF0000"><input type="color" id="col_change2_2" value="#0000FF"></li>
-	<li>One Color(selecting)<input type="radio" id="1color" checked name="colors"> &nbsp; <input type="color" id="col_change1" value="#FFFFFF"></li>
-	<li><button onclick="checkCol()">Set it!</button></li>
-	<div> &nbsp; </div><div>
-	<select>
-	  <option id="peaceful">Peaceful</option>
-	  <option id="easy">Easy</option>
- 	  <option id="normal" selected>Normal</option>
-	  <option id="hardcore">Hardcore</option>
-	</select><button onclick="diffic()">Set</button></div><div> &nbsp; </div><div>It's Phone?<input type="checkbox" id="isPhone"></div>
-	</ul></div>
-	<script src="http://code.jquery.com/jquery-2.1.0.js"></script> 
-	<!--script src=""></script-->
-	<script id="snake">
-var coords=[]
-var last3sec = {score:0,apple}
-//Создание переменных с html-элементами, и переменных скорости игры
-var bgcolor = "#000000"
-var textcolor = bgcolor.replaceAll("00","FF")
-var speed = 200;
-var lvl=1; 
-var basespeed = speed;
-var acceleration = 20;
-var setts=document.getElementById("settings")
-var isphone = document.getElementById("isPhone")
-var showsetts=document.getElementById("show_setts");
-var bgcol = document.getElementById("bgcolor");
-var twocol = document.getElementById("2color");
-var yell = document.getElementById("yell");
-var rain = document.getElementById("rabo");
-var onecol = document.getElementById("1color");
-var col_chan = document.getElementById("col_change1");
-var col_chan2_1 = document.getElementById("col_change2_1");
-var col_chan2_2 = document.getElementById("col_change2_2");
-var cvs = document.getElementById("c");
-var c = cvs.getContext("2d");
-var width = cvs.width;
-var height = cvs.height;
-var ctrl = false
+if(Math.floor(Math.random()*30)==0){
+	code="7r0l1O"
+}else{
+	for (let i = 0; i <= 5; i++) {
+		if(i%2==0){
+			code+=numbers[Math.floor(Math.random()*(numbers.length-1))]
+		}else{
+			code+=latinic[Math.floor(Math.random()*(latinic.length-1))]
+		}
+	}
+}
+
+let courier = get("courier")
+let serif = get("serif")
+let arial = get("arial")
+let helvetica = get("helvetica")
+function setfont() {
+	if(courier.selected){
+		font="courier"
+	}else if(serif.selected){
+		font="serif"
+	}else if(arial.selected){
+		font="arial"
+	}else if (helvetica.selected){
+		font="helvetica"
+	}
+}
+
+get("code").innerHTML=code;
+let skins={partyhat:{
+	status
+:"none", includes:"hat", cost:3},crown:{
+	status
+:"none", includes:"hat", cost:5},tophat:{
+	status
+:"none", includes:"hat", cost:7},sweets:{
+	status
+:"none", includes:"apple", cost:3},goldenapp:{
+	status
+:"none", includes:"apple", cost:5},wormyapp:{
+	status
+:"none", includes:"apple", cost:7},nospots:{
+	status:"none", includes:"spotc", cost:7
+},yellowspots:{
+	status:"none", includes:"spotc", cost:0
+},greenspots:{
+	status:"none", includes:"spotc", cost:3
+},bluespots:{
+	status:"none", includes:"spotc", cost:5
+},noeyes:{
+	status:"none", includes:"eyesc", cost:7
+},blackeyes:{
+	status:"none", includes:"eyesc", cost:0
+},greeneyes:{
+	status:"none", includes:"eyesc", cost:3
+},blueeyes:{
+	status:"none", includes:"eyesc", cost:5
+}
+}
+let skinOfHat="none"
+let skinOfApple="none"
+let hatskin;
+let appskin;
+let spotcolor = "Yellow";
+let eyescolor = "Black";
+let drawApple=true;
+let coords=[]
+//let last3sec = {score:0,apple:appl}
+//Створення змінних з html-елементами і внутрішньоігрових параметрів
+let bgcolor = "#000000"
+let textcolor = bgcolor.replaceAll("00","FF")
+let speed = 200;
+let lvl = 1; 
+let basespeed = speed;
+let acceleration = 20;
+let style = get("style");
+let nickname = get("nick");
+let showhatshop = get("showhatshop"); 
+let showappleshop = get("showappleshop");
+let showspotshop = get("showtailshop");
+let showeyeshop = get("showeyeshop")
+let hatshop = get("hats"); 
+let appleshop = get("apples");
+let spotshop = get("spots");
+let eyeshop = get("eyes");
+
+
+let shopsets = get("shopsets"); 
+let gamesets = get("gamesets");
+let musicsets = get("musicsets");
+let graficsets = get("graficsets");
+let langsets = get("langsets");
+let setts = get("settings");
+let isphone = get("isPhone");
+let showshopsets=get("showshopsets");
+let showsetts=get("show_setts");
+let showgamesets = get("showgamesets");
+let showmusicsets = get("showmusicsets");
+let showgraficsets = get("showgraficsets");
+let showlangsets = get("showlangsets");
+let bgcol = get("bgcolor");
+let twocol = get("2color");
+let yell = get("yell");
+let rain = get("rabo");
+let onecol = get("1color");
+let col_chan = get("col_change1");
+let col_chan2_1 = get("col_change2_1");
+let col_chan2_2 = get("col_change2_2");
+let cvs = get("c");
+let c = cvs.getContext("2d");
+let width = cvs.width;
+let height = cvs.height;
+let ctrl = false
 //Время игры
-var time=0;
-var eatspeed;
+let time=0;
+let eatspeed;
 function seteatsped(){
-	eatspeed=(snake.segments.length-6)/time*60
-	eatspeed=String(eatspeed).slice(0,3)
+	eatspeed=(snake.segments.length-7)/time*60
+	eatspeed=eatspeed.toFixed(1)
 }
 setInterval(function(){
 	if(!stopping)
@@ -146,69 +324,78 @@ function minutes(){
 	if(String((time-time%60)/60).length==1){
 		return "0"+String((time-time%60)/60)
 	}
-	return String((time-time%60)/60);
-}
+	return String((time-time%60)/60);}
+
 //Сложности
-var pefu=document.getElementById("peaceful")
-var easy=document.getElementById("easy")
-var norm=document.getElementById("normal")
-var hard=document.getElementById("hardcore")
+let pefu=get("peaceful")
+let easy=get("easy")
+let norm=get("normal")
+let hard=get("hardcore")
 function diffic(){
 	if(pefu.selected){
 	basespeed=165;
-	speed=basespeed;
 	hard=false;
 	nogameov=true;
 	}else if(easy.selected){
 	basespeed=350;
-	speed=basespeed;
 	hard=false;
 	nogameov=false;
 	}else if(norm.selected){
 	basespeed=200;
-	speed=basespeed;
 	hard=false;
 	nogameov=false;
 	}else{
 	basespeed=185;
-	speed=basespeed;
 	hard=true;
 	nogameov=false;
 	}
+	speed=basespeed;
 }
 //Языки
-var eng=document.getElementById("en");
-var ukr=document.getElementById("ua")
-var rus=document.getElementById("ru");
+let eng=get("en");
+let ukr=get("ua")
+let rus=get("ru");
 //Звуки...
-var sondy=document.getElementById("sounds")
-var play_sonds = false;
-var scorr = new Audio()
-var turning = new Audio()
-var adddebt = new Audio()
-var gaov = new Audio()
-scorr.src="D:/To%20Leisure/flappy/audio/score.mp3"
-turning.src="D:/To%20Leisure/flappy/audio/fly.mp3"
-adddebt.src ="D:/To%20Leisure/audios/addborg.mp3"
-gaov.src ="D:/To%20Leisure/audios/gameover.mp3"
+let sondy=get("sounds")
+let play_sonds = false;
+let scorr = new Audio()
+let turning = new Audio()
+let adddebt = new Audio()
+let gaov = new Audio()
+scorr.src="audio/score.mp3"
+turning.src="audio/turn.mp3"
+adddebt.src ="audio/adddebt.mp3"
+gaov.src ="audio/gameover.mp3"
 //Создание переменных, которые обозначают продолжение игры
-var go=true
-var stopping = false;
-var gameover = false;
+let go=true
+let stopping = false;
+let gameover = false;
 //Цветовые гаммы змейки и яблочка
-var colOfYellSnakeSeg = ["GoldenRod","Darkorange","Orange","Gold","Yellow","Khaki","Moccasin"]
-var colOfBlreSnakeSeg = ["Red","Blue","Red","Blue","Red","Blue","Red"]
-var colOfSnakeSeg = ["Red","Blue","Red","Blue","Red","Blue","Red"]
-var colOfRainSnakeSeg = ["Red","Orange","Yellow","Green","SkyBlue","Blue","Purple"]
-var colorOfApple = ["Red","Yellow","LimeGreen","Chartreuse","YellowGreen","Orange"]
+let colOfYellSnakeSeg = ["GoldenRod","Darkorange","Orange","Gold","Yellow","Khaki","Moccasin"]
+let colOfBlreSnakeSeg = ["Red","Blue","Red","Blue","Red","Blue","Red"]
+let colOfSnakeSeg = ["Red","Blue","Red","Blue","Red","Blue","Red"]
+let colOfRainSnakeSeg = ["Red","Orange","Yellow","Green","SkyBlue","Blue","Purple"]
+
+let colorOfApple = ["Red","Yellow","LimeGreen","Chartreuse","YellowGreen","Orange"]
 //Создание переменных, позволяющих поделить игровое поле на блоки BS^2
-var BS = 15;
-var widthInB = width / BS;
-var heightInB = height / BS;
+let BS = 15;
+let widthInB = width / BS;
+let heightInB = height / BS;
 //Создание переменных, которые связаны с счетом игры, и которые будут рисоватся на полотне
-var borg = 0
-var score = 0;
-var best_score=0;
+let borg = 0
+let score = 0;
+let best_score=0;
+//Чё-нибудь
+let rehex = {0:"f",1:"e",2:"d",3:"c",4:"b",5:"a",6:"9",7:"8",8:"7",9:"6",a:"5",b:"4",c:"3",d:"2",e:"1",f:"0"}
+function reverse(hex){
+	hex=hex.toLowerCase()
+	let nEw = "#";
+		for(let index = 1;index < 7;index++){
+			nEw+=rehex[hex[index]]
+		}
+	return nEw;
+}
+//Музыка
 function sonds(){
 	if(sondy.checked){
 		play_sonds=true
@@ -219,7 +406,8 @@ function sonds(){
 function dobgcol(){
 	document.body.bgColor=bgcol.value
 	bgcolor=bgcol.value
-	var textcolor = bgcolor.replaceAll("00","FF").replaceAll("FF","00")
+	textcolor=reverse(bgcolor);
+	style.innerHTML="#right {color: "+textcolor+"}\ninput{color:"+textcolor+"}"
 }
 //Функция создания игрового барьера
 function drawBorder() {
@@ -247,6 +435,370 @@ function checkCol(){
 		colOfSnakeSeg=colOfRainSnakeSeg
 	}
 }
+//Покупки
+function buySkin(skin) {
+	if(skins[skin].status=="none"&&best_score>=skins[skin].cost){
+		skins[skin].status="bought";
+		best_score-=skins[skin].cost;
+		if(score>best_score){
+			score=best_score;
+		}
+		if(skins[skin].includes=="hat"){
+			get(skin+"in").innerText="Set"
+			get(skin+"in").onclick=function() {setHatSkin(skin)}
+		}else if(skins[skin].includes=="apple"){
+			get(skin+"on").innerText="Set"
+			get(skin+"on").onclick=function() {setAppleSkin(skin)}
+		}else if(skins[skin].includes=="spotc"){
+			get(skin.replace('spots','')+"at").innerText="Set"
+			get(skin.replace('spots','')+"at").onclick=function() {setSpotColor(skin.replace('spots',''))}
+		}else if(skins[skin].includes=="eyesc"){
+			get(skin.replace('eyes','')+"for").innerText="Set"
+			get(skin.replace('eyes','')+"for").onclick=function() {setEyesColor(skin.replace('eyes',''))}
+		}
+	}
+}
+function showshop () {
+	if(showhatshop.checked){
+		$(hatshop).show()
+	}else{
+		$(hatshop).hide()
+	}
+	if(showappleshop.checked){
+		$(appleshop).show()
+	}else{
+		$(appleshop).hide()
+	}
+	if (showspotshop.checked) {
+		$(spotshop).show()
+	} else {
+		$(spotshop).hide()
+	}
+	if (showeyeshop.checked) {
+		$(eyeshop).show()
+	} else {
+		$(eyeshop).hide()
+	}	
+}
+function setSpotColor(color) {
+	spotcolor=color;
+	get(color+"at").innerText="Setted";
+	if(color=="none"){
+		if(skins.greenspots.status=="bought"){
+			get("greenat").innerText="Set";
+		}
+		if(skins.bluespots.status=="bought"){
+			get("blueat").innerText="Set";
+		}
+		get("yellowat").innerText="Set";
+	}else if(color=="yellow"){
+		if(skins.greenspots.status=="bought"){
+			get("greenat").innerText="Set";
+		}
+		if(skins.bluespots.status=="bought"){
+			get("blueat").innerText="Set";
+		}
+		if(skins.nospots.status=="bought"){
+			get("noneat").innerText="Set";
+		}
+	}else if(color=="green"){
+		if(skins.nospots.status=="bought"){
+			get("noneat").innerText="Set";
+		}
+		if(skins.bluespots.status=="bought"){
+			get("blueat").innerText="Set";
+		}
+		get("yellowat").innerText="Set";
+	}else if(color=="blue"){
+		if(skins.greenspots.status=="bought"){
+			get("greenat").innerText="Set";
+		}
+		if(skins.nospots.status=="bought"){
+			get("noneat").innerText="Set";
+		}
+		get("yellowat").innerText="Set";
+	}
+}
+
+function setEyesColor(color) {
+	eyescolor=color;
+	get(color+"for").innerText="Setted";
+	if(color=="none"){
+		if(skins.greeneyes.status=="bought"){
+			get("greenfor").innerText="Set";
+		}
+		if(skins.blueeyes.status=="bought"){
+			get("bluefor").innerText="Set";
+		}
+		get("blackfor").innerText="Set";
+	}else if(color=="black"){
+		if(skins.greeneyes.status=="bought"){
+			get("greenfor").innerText="Set";
+		}
+		if(skins.blueeyes.status=="bought"){
+			get("bluefor").innerText="Set";
+		}
+		if(skins.noeyes.status=="bought"){
+			get("nonefor").innerText="Set";
+		}
+	}else if(color=="green"){
+		if(skins.noeyes.status=="bought"){
+			get("nonefor").innerText="Set";
+		}
+		if(skins.blueeyes.status=="bought"){
+			get("bluefor").innerText="Set";
+		}
+		get("blackfor").innerText="Set";
+	}else if(color=="blue"){
+		if(skins.greeneyes.status=="bought"){
+			get("greenfor").innerText="Set";
+		}
+		if(skins.noneeyes.status=="bought"){
+			get("nonefor").innerText="Set";
+		}
+		get("blackfor").innerText="Set";
+	}
+}
+
+function setAppleSkin(skin) {
+	skinOfApple=skin
+	drawApple=false;
+	get(skin+"on").innerText="Setted"
+	if (skin=="sweets") {
+		//get("crownin").innerText="Setted";
+		if(skins.wormyapp.status=="bought"){
+			get("wormyappon").innerText="Set";
+		}
+		if(skins.goldenapp.status=="bought"){
+			get("goldenappon").innerText="Set";
+		}
+		get("noneon").innerText="Set";
+		appskin=function(x,y,size) {
+			function candle(x,y){
+				c.strokeStyle="White";
+				c.lineWidth=4;
+				c.beginPath();
+				c.moveTo(x,y);
+				c.lineTo(x,y-5);
+				c.stroke();
+				c.fillStyle="White"
+				circle(x,y,2,true)
+				c.fillStyle="#fff3a8"
+				circle(x,y-5,2,true)
+				c.strokeStyle="#57512e";
+				c.lineWidth=2;
+				c.beginPath();
+				c.moveTo(x,y-5);
+				c.lineTo(x,y-10);
+				c.stroke();
+			};
+			if(size==0){
+				c.fillStyle="BurlyWood";
+				circle(x+7.5,y+7.5,8,true);
+				c.fillStyle="Chocolate";
+				circle(x+7.5,y+7.5,7,true);
+				c.fillStyle="BurlyWood";
+				circle(x+7.5,y+7.5,4,true);
+				c.fillStyle="#451508";
+				circle(x+3,y+8,1,true);
+				circle(x+5,y+13,1,true);
+				circle(x+10,y+12,1,true)
+				circle(x+11,y+4,1,true);
+				circle(x+13,y+9,1,true);
+				circle(x+6,y+2,1,true);
+				c.fillStyle=bgcolor;
+				circle(x+7.5,y+7.5,3,true);
+			}else{
+				c.fillStyle="#feb";
+				c.beginPath();
+				c.moveTo(x+15,y+11);
+				c.lineTo(x-1,y+11);
+				c.lineTo(x-1,y+4);
+				c.lineTo(x+15,y+4);
+				c.lineTo(x+15,y+11)
+				c.arc(x+BS/2-0.5,y+6,10,0.5,2.70,false);
+				c.fill();
+				c.fillStyle="Chocolate"
+				c.beginPath()
+				c.arc(x+BS/2,y-1,10,0.7,2.43,false)
+				c.arc(x+BS/2,y+9,10,3.83,5.57,false)
+				c.fill()
+				candle(x+4,y+2)
+				candle(x+5,y+5)
+				candle(x+10,y+3)
+			}
+		}
+	} else if (skin=="goldenapp") {
+		//get("partyhatin").innerText="Setted";
+
+		if(skins.sweets.status=="bought"){
+			get("sweetson").innerText="Set";
+		}
+		if(skins.wormyapp.status=="bought"){
+			get("wormyappon").innerText="Set";
+		}
+		get("noneon").innerText="Set";
+		appskin=function(x,y,size) {
+			if(size==0){
+				apple.position.drawCircle(1.5,"#d9b90f");
+				c.fillStyle=bgcolor;
+				c.fillRect(x,y,BS,1.5);
+				circle(x+BS/2,y+1,2,true);
+				c.fillRect(x,y+BS-1.5,BS,1.5);
+				circle(x+BS/2,y+BS-1,2,true);
+				c.fillStyle="#b58119";
+				c.fillRect(x+BS/2,y-2,2,4);
+			}else{
+				apple.position.drawCircle(0.5,"#d9b90f");
+				c.fillStyle=bgcolor;
+				c.fillRect(x,y,BS,1.5);
+				circle(x+BS/2,y,2.5,true);
+				c.fillRect(x,y+BS-1.5,BS,1.5);
+				circle(x+BS/2,y+BS,2.5,true);
+				c.fillStyle="#b58119";
+				c.fillRect(x+BS/2,y-3,2,5);
+			}
+			c.fillStyle="#ffda91"
+			circle(x+5,y+6,1.5,true)
+
+		}
+	}else if(skin=="wormyapp"){
+		drawApple=true;
+		//get("tophatin").innerText="Setted";
+		if(skins.sweets.status=="bought"){
+			get("sweetson").innerText="Set";
+		}
+		if(skins.goldenapp.status=="bought"){
+			get("goldenappon").innerText="Set";
+		}
+		get("noneon").innerText="Set";
+		appskin=function(x,y,size) {
+			c.fillStyle="#430"
+			circle(x+10,y+5,2,true)
+			c.lineWidth=3
+			c.strokeStyle="#8a423a"
+			c.beginPath()
+			c.moveTo(x+10,y+5)
+			c.lineTo(x+12,y+2)
+			c.lineTo(x+14,y-2)
+			c.stroke()
+			c.lineWidth=1
+
+		}
+
+	} else if (skin=="none") {
+		drawApple=true;
+		if(skins.sweets.status=="bought"){
+			get("sweetson").innerText="Set";
+		}
+		if(skins.goldenapp.status=="bought"){
+			get("goldenappon").innerText="Set";
+		}
+		if(skins.wormyapp.status=="bought"){
+			get("wormyappon").innerText="Set";
+		}
+		appskin=function() {
+		}
+	}
+}
+setAppleSkin("none")
+function setHatSkin(skin) {
+	skinOfHat=skin;
+	get(skin+"in").innerText="Setted"
+	if (skin=="crown") {
+		//get("crownin").innerText="Setted";
+		if(skins.partyhat.status=="bought"){
+			get("partyhatin").innerText="Set";
+		}
+		if(skins.tophat.status=="bought"){
+			get("tophatin").innerText="Set";
+		}
+		get("nonein").innerText="Set";
+		hatskin=function(x,y) {
+			c.fillStyle="Gold"
+			c.beginPath()
+			c.moveTo(1+x,y-3)
+			c.lineTo(3.5+x,y)
+			c.lineTo(7+x,y-3)
+			c.lineTo(10.5+x,y)
+			c.lineTo(14+x,y-3)
+			c.lineTo(13+x,y+5)
+			c.lineTo(2+x,y+5)
+			c.fill()
+			c.fillStyle="Lime"
+			circle(x+7.5,y+2,2,true)
+			c.fillStyle="PaleGreen"
+			circle(x+6.5,y+1,1,true)
+		}
+	} else if (skin=="partyhat") {
+		//get("partyhatin").innerText="Setted";
+		if(skins.crown.status=="bought"){
+			get("crownin").innerText="Set";
+		}
+		if(skins.tophat.status=="bought"){
+			get("tophatin").innerText="Set";
+		}
+		get("nonein").innerText="Set";
+		hatskin=function(x,y) {
+			c.fillStyle="SkyBlue"
+			c.beginPath()
+				c.moveTo(x+8,y-BS/2)
+				c.lineTo(x+2,y+3)
+				c.lineTo(x+14,y+3)
+			c.fill()
+			c.fillStyle="Red"
+				circle(x+8.5,y-9,3,true)
+				circle(x+8,y-2,1,true)
+				circle(x+5,y+1,1,true)
+				circle(x+10,y+1,1,true)
+
+		}
+	}else if(skin=="tophat"){
+		//get("tophatin").innerText="Setted";
+		if(skins.crown.status=="bought"){
+			get("crownin").innerText="Set";
+		}
+		if(skins.partyhat.status=="bought"){
+			get("partyhatin").innerText="Set";
+		}
+		get("nonein").innerText="Set";
+		hatskin=function(x,y) {
+			c.fillStyle="Black"
+			c.beginPath()
+				c.moveTo(x+2,y-5)
+				c.lineTo(x+6,y-6)
+				c.lineTo(x+10,y-6)
+				c.lineTo(x+12,y-5)
+				c.lineTo(x+11,y+1)
+				c.lineTo(x+13,y)
+				c.lineTo(x+13,y+2)
+				//c.lineTo(x+8,y+)
+				c.lineTo(x+6,y+4)
+				c.lineTo(x+3,y+2)
+				c.lineTo(x+1,y+1)
+				c.lineTo(x,y-1)
+				c.lineTo(x+2,y-2)
+				c.lineTo(x+3,y)
+			c.fill()
+			
+
+		}
+
+	} else if (skin=="none") {
+		if(skins.tophat.status=="bought"){
+			get("tophatin").innerText="Set";
+		}
+		if(skins.crown.status=="bought"){
+			get("crownin").innerText="Set";
+		}
+		if(skins.partyhat.status=="bought"){
+			get("partyhatin").innerText="Set";
+		}
+		hatskin=function() {
+		}
+	}
+}
+setHatSkin("none")
 function bigPerOne(biggerNum,smallerNum){
 	if((biggerNum-smallerNum)==1){
 		return true
@@ -271,51 +823,79 @@ c.fillStyle="Black"
 c.fillRect(300,height-BS*1.55,BS/3,BS)
 c.fillRect(310,height-BS*1.55,BS/3,BS)
 }}
-function newLevel(){
-	lvl++
+//Показати/приховати налаштування
+function showsettis() {
+	if(showshopsets.checked){
+		$(shopsets).show();
+		$(gamesets).hide();
+		$(musicsets).hide()
+		$(graficsets).hide()
+		$(langsets).hide()
+	}else if(showgamesets.checked){
+		$(shopsets).hide();
+		$(gamesets).show();
+		$(musicsets).hide()
+		$(graficsets).hide()
+		$(langsets).hide()
+	}else if(showmusicsets.checked){
+		$(shopsets).hide();
+		$(gamesets).hide();
+		$(musicsets).show()
+		$(graficsets).hide()
+		$(langsets).hide()
+	}else if(showgraficsets.checked){
+		$(shopsets).hide();
+		$(gamesets).hide();
+		$(musicsets).hide()
+		$(graficsets).show()
+		$(langsets).hide()
+	}else if(showlangsets.checked){
+		$(shopsets).hide();
+		$(gamesets).hide();
+		$(musicsets).hide()
+		$(graficsets).hide()
+		$(langsets).show()
+	}
 }
-//Показать/Скрыть настройки
 function settis(){
 	if(showsetts.checked){
-	$(setts).show()
+		$(setts).show()
 	}else{
-	$(setts).hide()
+		$(setts).hide()
 	}
 }
 function drawScore() {
-	c.font = "20px Courier";
-	c.fillStyle = "White";
-	if(bgcolor=="#ffffff"){
-	c.fillStyle="Black";
-	}
+	c.font = "bold 20px "+font
+	c.fillStyle = textcolor;
 	c.textAlign = "left";
 	c.textBaseline = "top";
 	if(eng.checked){
-	if(borg<1){
-	c.fillText("Score: "+score,BS*2,BS*2)
-	}else{
-	c.fillText("Score: "+score+", Debt: "+borg,BS*2,BS*2)
-	}
-	c.textBaseline = "bottom";
-	c.fillText("Best score: "+best_score+", Time: "+minutes()+":"+seconds()+", "+eatspeed+" app./min",BS*2,height-BS*2.5)
+		if(borg<1){
+			c.fillText("Score: "+score,BS*2,BS*2)
+		}else{
+			c.fillText("Score: "+score+", Debt: "+borg,BS*2,BS*2)
+		}
+		c.textBaseline = "bottom";
+		c.fillText("Best score: "+best_score+", Time: "+minutes()+":"+seconds()+", "+(eatspeed||'0.0')+" appl./min",BS*2,height-BS*2.5)
 	}else if(ukr.checked){
-	if(borg<1){
-	c.fillText("Рахунок: "+score,BS*2,BS*2)
+		if(borg<1){
+			c.fillText("Рахунок: "+score,BS*2,BS*2)
+		}else{
+			c.fillText("Рахунок: "+score+", Борг: "+borg,BS*2,BS*2)
+		}
+		c.textBaseline = "bottom";
+		c.fillText("Найкращий рахунок: "+best_score+", Час: "+minutes()+":"+seconds()+", "+(eatspeed||'0.0')+" ябл./хв",BS*2,height-BS*2.5)
 	}else{
-	c.fillText("Рахунок: "+score+", Борг: "+borg,BS*2,BS*2)
+		if(borg<1){
+			c.fillText("Wynik: "+score,BS*2,BS*2)
+		}else{
+			c.fillText("Wynik: "+score+", Dług: "+borg,BS*2,BS*2)
+		}
+		c.textBaseline = "bottom";
+		c.fillText("Najlepszy wynik: "+best_score+", Czas: "+minutes()+":"+seconds()+", "+(eatspeed||'0.0')+" jabł./min",BS*2,height-BS*2.5)
 	}
-	c.textBaseline = "bottom";
-	c.fillText("Кращий рахунок: "+best_score+", Час: "+minutes()+":"+seconds()+", "+eatspeed+" ябл./хв",BS*2,height-BS*2.5)
-	}else{
-	if(borg<1){
-	c.fillText("Счёт: "+score,BS*2,BS*2)
-	}else{
-	c.fillText("Счёт: "+score+", Долг: "+borg,BS*2,BS*2)
-	}
-	c.textBaseline = "bottom";
-	c.fillText("Лучший счёт: "+best_score+", Время: "+minutes()+":"+seconds()+", "+eatspeed+" ябл./мин",BS*2,height-BS*2.5)
-	}}
-//Класс Brick, с экземпляром brick
+}
+//Клас Brick
 class Brick extends Block{
 	constructor(c,r){
 		super(c,r)
@@ -403,11 +983,12 @@ function wheele(){
 		}
 	}
 	if(go){
-		setTimeout(wheele,speed)
+		timeoutId = setTimeout(wheele,speed)
 	}
 	}
-//Функция окончания игры
+//Функція кінця гри
 function gameOver() {
+	clearTimeout(timeoutId)
 	if(play_sonds){
 	gaov.play()
 	}
@@ -415,11 +996,8 @@ function gameOver() {
 	gameover = true;
 	go=false;
 	borg=0//=^.^=
-	c.font = "20px Courier"
-	c.fillStyle = "White";
-	if(bgcolor=="#ffffff"){
-		c.fillStyle="Black";
-	}
+	c.font = "bold 20px "+font
+	c.fillStyle = textcolor;
 	c.textAlign = "center"
 	c.textBaseline = "middle"
 	if(eng.checked){
@@ -427,11 +1005,12 @@ function gameOver() {
 	}else if(ukr.checked){
 	c.fillText("Кінець гри!",width/2,height/2)
 	}else{
-	c.fillText("Конец игры!",width/2,height/2)
+	c.fillText("Koniec gry!",width/2,height/2)
 	}}
 }
-//Функция перезагрузки игры, и не обязательно после её окончания
+//Функція рестарту гри
 function restart() {
+	clearTimeout(timeoutId)
 	if(!hard){
 	time=0
 	pear.hide()
@@ -439,37 +1018,36 @@ function restart() {
 	gameover = false;
 	go=true;
 	speed=basespeed;
-	setTimeout(wheele,speed)
-	borg=0
+	timeoutId = setTimeout(wheele,speed)
+	borg = 0;
 	score = 0;
 	apple.move()
 	snake = new Snake()
 }
 }
+//Функція ставлення гри на паузу
 function pause(){
 	if (!gameover&&go){
 		stopping = !stopping;
 	}
-		if (stopping){
-			c.fillStyle = bgcolor;
-			c.fillRect(BS,BS,width-BS*2,height-BS*2)
-			c.font = "20px Courier"
-			c.fillStyle = "White";
-			if(bgcolor=="#ffffff"){
-				c.fillStyle="Black";
-			}
-			c.textAlign = "center"
-			c.textBaseline = "middle"
-			if(eng.checked){
+	if (stopping){
+		c.fillStyle = bgcolor;
+		c.fillRect(BS,BS,width-BS*2,height-BS*2)
+		c.font = "bold 20px "+font
+		c.fillStyle = textcolor;
+		c.textAlign = "center"
+		c.textBaseline = "middle"
+		if(eng.checked){
 			c.fillText("Paused!",width/2,height/2)
-			}else if(ukr.checked){
+		}else if(ukr.checked){
 			c.fillText("Зупинено!",width/2,height/2)
-			}else{
-			c.fillText("Остановлено!",width/2,height/2)
-			}
-			drawScore()
-			drawPause()
-}}
+		}else{
+			c.fillText("Zatrzymano!",width/2,height/2)
+		}
+		drawScore()
+		drawPause()
+	}
+}
 //Базовый класс, из него состоят элементы змейки и записана позиция яблочка
 function Block(col,row){
 	this.col = col;
@@ -477,8 +1055,8 @@ function Block(col,row){
 }
 //Рисование квадратиков на координатах блока
 Block.prototype.drawSquare = function(width,height,color) {
-	var x = this.col*BS;
-	var y = this.row*BS;
+	let x = this.col*BS;
+	let y = this.row*BS;
 	c.fillStyle = color;
 	c.fillRect(x+(BS-width)/2,y+(BS-height)/2,width,height)
 };
@@ -494,8 +1072,8 @@ function circle(x,y,rad,fillCircle) {
 }
 //Рисование кружочков на координатах блока
 Block.prototype.drawCircle = function(radi,color) {
-	var centerX = this.col*BS+BS/2;
-	var centerY = this.row*BS+BS/2;
+	let centerX = this.col*BS+BS/2;
+	let centerY = this.row*BS+BS/2;
 	c.fillStyle = color;
 	circle(centerX,centerY,BS/2-radi,true)
 }
@@ -515,8 +1093,8 @@ Block.prototype.equal = function(otherBlock) {
 };
 //Собственно змейка, а точнее её класс
 function Snake(){
-	var randomCol = Math.floor(Math.random()*(widthInB/2)+5)
-	var randomRow = Math.floor(Math.random()*(heightInB/2)+5)
+	let randomCol = Math.floor(Math.random()*(widthInB/2)+5)
+	let randomRow = Math.floor(Math.random()*(heightInB/2)+5)
 	this.segments = [
 	new Block(randomCol+6,randomRow),
 	new Block(randomCol+5,randomRow),
@@ -526,22 +1104,22 @@ function Snake(){
 	new Block(randomCol+1,randomRow),
 	new Block(randomCol,randomRow)]
 
-	last3sec.snasegs=this.segments;
+	//last3sec.snasegs=this.segments;
 
 	this.direction = "right";
 	this.nextDirection = "right";
 }
 //рисование змейки
 Snake.prototype.draw = function(){
-	var bs = BS-2;
-	var seg;
-	var segs = this.segments;
-	var len = segs.length
-	var head = segs[0];
+	let bs = BS-2;
+	let seg;
+	let segs = this.segments;
+	let len = segs.length
+	let head = segs[0];
 	c.fillStyle="Red"
 	c.strokeStyle="Red"
 	c.lineWidth=3
-	if (this.direction === "right"&&(((apple.position.col-head.col)>(-1)&&(apple.position.col-head.col)<3&&head.row==apple.position.row)/*||(pear.position.col-head.col)>(-1)&&(pear.position.col-head.col)<3&&head.row==pear.position.row)*/)) {
+	if (this.direction === "right"&&(apple.position.col-head.col)>(-1)&&(apple.position.col-head.col)<3&&head.row==apple.position.row) {
 		c.fillRect(head.col*BS+BS/2,head.row*BS+6,9,3)
 		c.beginPath()
 		c.moveTo(head.col*BS+16.5,head.row*BS+7)
@@ -549,7 +1127,7 @@ Snake.prototype.draw = function(){
 		c.moveTo(head.col*BS+16.5,head.row*BS+7)
 		c.lineTo(head.col*BS+23.5,head.row*BS+4)
 		c.stroke()
-	} else if(this.direction === "left"&&(((head.col-apple.position.col)>(-1)&&(head.col-apple.position.col)<3&&head.row==apple.position.row)||((head.col-pear.position.col)>(-1)&&(head.col-pear.position.col)<3&&head.row==pear.position.row))){
+	} else if(this.direction === "left"&&(head.col-apple.position.col)>(-1)&&(head.col-apple.position.col)<3&&head.row==apple.position.row){
 		c.fillRect(head.col*BS-BS/3,head.row*BS+6,12,3)
 		c.beginPath()
 		c.moveTo(head.col*BS-1.5,head.row*BS+7)
@@ -574,8 +1152,8 @@ Snake.prototype.draw = function(){
 		c.lineTo(head.col*BS+4,head.row*BS+23.5)
 		c.stroke()
 	}
-	var pretail = segs[len-2]
-	var tail = segs[len-1];
+	let pretail = segs[len-2]
+	let tail = segs[len-1];
 	colorIndex = 0;
 	c.fillStyle = colOfSnakeSeg[colorIndex];
 	if (this.direction === "right") {
@@ -588,7 +1166,7 @@ Snake.prototype.draw = function(){
 		c.fillRect(head.col*BS+1,head.row*BS,BS-2,BS/2)
 	}
 	head.drawCircle(1,colOfSnakeSeg[colorIndex])
-	c.fillStyle="Black"
+	c.fillStyle=eyescolor;
 	if(this.direction=="left"||this.direction=="right"){
 	circle(head.col*BS+BS/2,head.row*BS+5.15,1.5,true)
 	circle(head.col*BS+BS/2,head.row*BS+9.85,1.5,true)
@@ -596,7 +1174,7 @@ Snake.prototype.draw = function(){
 	circle(head.col*BS+5.15,head.row*BS+BS/2,1.5,true)
 	circle(head.col*BS+9.85,head.row*BS+BS/2,1.5,true)
 	}
-	for (var i = 1;i<len-1;i++){
+	for (let i = 1;i<len-1;i++){
 		seg=segs[i]
 		if(colorIndex === 0){
 			colorIndex = 1;
@@ -620,28 +1198,28 @@ Snake.prototype.draw = function(){
 		seg.drawCircle(1,colOfSnakeSeg[colorIndex])}
 		if(bigPerOne(seg.col,segs[i-1].col)&&bigPerOne(segs[i+1].col,seg.col)){
 		seg.drawSquare(BS,bs,colOfSnakeSeg[colorIndex])
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+4.5,seg.row*BS+4,1.4,true)
 		circle(seg.col*BS+4.5,seg.row*BS+11,1.4,true)
 		circle(seg.col*BS+8.5,seg.row*BS+7.5,1.4,true)
 		}
 		else if(bigPerOne(segs[i-1].col,seg.col)&&bigPerOne(seg.col,segs[i+1].col)){
 		seg.drawSquare(BS,bs,colOfSnakeSeg[colorIndex])
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+4.5,seg.row*BS+7.5,1.4,true)
 		circle(seg.col*BS+8.5,seg.row*BS+4,1.4,true)
 		circle(seg.col*BS+8.5,seg.row*BS+11,1.4,true)
 		}
 		else if(bigPerOne(seg.row,segs[i-1].row)&&bigPerOne(segs[i+1].row,seg.row)){
 		seg.drawSquare(bs,BS,colOfSnakeSeg[colorIndex])
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+4,seg.row*BS+4.5,1.4,true)
 		circle(seg.col*BS+11,seg.row*BS+4.5,1.4,true)
 		circle(seg.col*BS+7.5,seg.row*BS+8.5,1.4,true)
 		}
 		else if(bigPerOne(segs[i-1].row,seg.row)&&bigPerOne(seg.row,segs[i+1].row)){
 		seg.drawSquare(bs,BS,colOfSnakeSeg[colorIndex])
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+7.5,seg.row*BS+4.5,1.4,true)
 		circle(seg.col*BS+4,seg.row*BS+8.5,1.4,true)
 		circle(seg.col*BS+11,seg.row*BS+8.5,1.4,true)
@@ -650,7 +1228,7 @@ Snake.prototype.draw = function(){
 		(bigPerOne(seg.col,segs[i+1].col)&&bigPerOne(segs[i-1].row,seg.row))){
 		c.fillRect(seg.col*BS,seg.row*BS+1,BS/2,BS-2)
 		c.fillRect(seg.col*BS+1,seg.row*BS+BS/2,BS-2,BS/2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+5,seg.row*BS+5,1.4,true)
 		circle(seg.col*BS+10,seg.row*BS+10,1.4,true)
 
@@ -658,7 +1236,7 @@ Snake.prototype.draw = function(){
 		(bigPerOne(segs[i+1].col,seg.col)&&bigPerOne(seg.row,segs[i-1].row))){
 		c.fillRect(seg.col*BS+1,seg.row*BS,BS-2,BS/2)
 		c.fillRect(seg.col*BS+BS/2,seg.row*BS+1,BS/2,BS-2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+5,seg.row*BS+5,1.4,true)
 		circle(seg.col*BS+10,seg.row*BS+10,1.4,true)
 
@@ -666,7 +1244,7 @@ Snake.prototype.draw = function(){
 		(bigPerOne(segs[i+1].col,seg.col)&&bigPerOne(segs[i-1].row,seg.row))){
 		c.fillRect(seg.col*BS+BS/2,seg.row*BS+1,BS/2,BS-2)
 		c.fillRect(seg.col*BS+1,seg.row*BS+BS/2,BS-2,BS/2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+5,seg.row*BS+10,1.4,true)
 		circle(seg.col*BS+10,seg.row*BS+5,1.4,true)
 
@@ -674,7 +1252,7 @@ Snake.prototype.draw = function(){
 		(bigPerOne(seg.col,segs[i-1].col)&&bigPerOne(seg.row,segs[i+1].row))){
 		c.fillRect(seg.col*BS,seg.row*BS+1,BS/2,BS-2)
 		c.fillRect(seg.col*BS+1,seg.row*BS,BS-2,BS/2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(seg.col*BS+10,seg.row*BS+5,1.4,true)
 		circle(seg.col*BS+5,seg.row*BS+10,1.4,true)
 		}
@@ -698,43 +1276,41 @@ Snake.prototype.draw = function(){
 	tail.drawCircle(1,colOfSnakeSeg[colorIndex])
 	if (tail.col>pretail.col) {
 		c.fillRect(tail.col*BS,tail.row*BS+1,BS/2,BS-2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(tail.col*BS+7.5,tail.row*BS+5,1.4,true)
 		circle(tail.col*BS+7.5,tail.row*BS+10,1.4,true)
 	} else if(tail.col<pretail.col){
 		c.fillRect(tail.col*BS+BS/2,tail.row*BS+1,BS/2,BS-2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(tail.col*BS+7.5,tail.row*BS+5,1.4,true)
 		circle(tail.col*BS+7.5,tail.row*BS+10,1.4,true)
 	} else if(tail.row<pretail.row){
 		c.fillRect(tail.col*BS+1,tail.row*BS+BS/2,BS-2,BS/2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(tail.col*BS+5,tail.row*BS+7.5,1.4,true)
 		circle(tail.col*BS+10,tail.row*BS+7.5,1.4,true)
 	} else if(tail.row>pretail.row){
 		c.fillRect(tail.col*BS+1,tail.row*BS,BS-2,BS/2)
-		c.fillStyle="Yellow"
+		c.fillStyle=spotcolor;
 		circle(tail.col*BS+5,tail.row*BS+7.5,1.4,true)
 		circle(tail.col*BS+10,tail.row*BS+7.5,1.4,true)
 	}
-	c.fillStyle="SkyBlue"
-	c.beginPath()
-	c.moveTo(head.col*BS+8,head.row*BS-BS/2)
-	c.lineTo(head.col*BS+2,head.row*BS+3)
-	c.lineTo(head.col*BS+14,head.row*BS+3)
-	c.fill()
-	c.fillStyle="Red"
-	circle(head.col*BS+8.5,head.row*BS-9,3,true)
-	circle(head.col*BS+8,head.row*BS-2,1,true)
-	circle(head.col*BS+5,head.row*BS+1,1,true)
-	circle(head.col*BS+10,head.row*BS+1,1,true)
+	hatskin(head.col*BS,head.row*BS)
+	if(skinOfHat == "none"){
+		c.font = "bold 10px " + font
+		c.strokeStyle = 'black';
+		c.strokeText(nickname.value,head.col*BS-5,head.row*BS-5)
+		c.font = "bold 10px " + font
+		c.fillStyle = 'white'
+		c.fillText(nickname.value,head.col*BS-5,head.row*BS-5)
+	}
 }
-//стена (преграда)
+//мур
 function Wall(bricks){
 	this.bricks=bricks
 }
-//создание стены
-var wall_lvl1 = new Wall([
+//Створення мурів
+let wall_lvl1 = new Wall([
 	new Brick(15,15),
 	new Brick(15,14),
 	new Brick(14,14),
@@ -743,7 +1319,7 @@ var wall_lvl1 = new Wall([
 	new Brick(14,18),
 	new Brick(15,17)
 	])
-var wall_lvl2 = new Wall([
+let wall_lvl2 = new Wall([
 	new Brick(15,15),
 	new Brick(15,14),
 	new Brick(14,14),
@@ -755,7 +1331,7 @@ var wall_lvl2 = new Wall([
 	new Brick(14,17),
 	new Brick(15,18)
 	])
-var wall_lvl3 = new Wall([
+let wall_lvl3 = new Wall([
 	new Brick(15,15),
 	new Brick(15,14),
 	new Brick(14,14),
@@ -774,37 +1350,54 @@ var wall_lvl3 = new Wall([
 	])
 //рисование стены
 Wall.prototype.draw=function(){
-var brs=this.bricks
+let brs=this.bricks
 for(let i=0;i<this.bricks.length;i++){
 brs[i].draw()
 }
 }
 //если змейка ударилась о стену, закончить игру
 Wall.prototype.equ = function(block){
-var brs=this.bricks
+let brs=this.bricks
 for(let i=0;i<this.bricks.length;i++){
 brs[i].doEqu(block)
 }
 }
 //функция передвижения змейки+проверки на столкновения
 Snake.prototype.move = function() {
-	var head = this.segments[0];
-	var newHead;
+	let head = this.segments[0];
+	let newHead;
 	this.direction = this.nextDirection;
-	if (this.direction === "right"){
-		newHead = new Block(head.col+1,head.row)
-	} else if (this.direction === "down") {
-		newHead = new Block(head.col,head.row+1)
-	} else if (this.direction === "left") {
-		newHead = new Block(head.col-1,head.row)
-	} else if (this.direction === "up") {
-		newHead = new Block(head.col,head.row-1)
+	switch(this.direction){
+		case 'right':
+			newHead = new Block(head.col+1,head.row);
+			break;
+		case 'down':
+			newHead = new Block(head.col,head.row+1);
+			break;
+		case 'left':
+			newHead = new Block(head.col-1,head.row);
+			break;
+		case 'up':
+			newHead = new Block(head.col,head.row-1);
+			break;
+		case 'r-d':
+			newHead = new Block(head.col+1,head.row+1);
+			break;
+		case 'r-u':
+			newHead = new Block(head.col+1,head.row-1);
+			break;
+		case 'l-u':
+			newHead = new Block(head.col-1,head.row-1);
+			break;
+		case 'l-d':
+			newHead = new Block(head.col-1,head.row+1);
+			break;
 	}
-	var snags = this.segments
-	setTimeout(function(){
+	let snags = this.segments;
+	/*setTimeout(function(){
 	last3sec.snasegs=snags;
 	last3sec.score=score;
-	},3000)
+	},3000)*/
 	if(this.checkCollision(newHead)&&!nogameov){
 		gameOver()
 		return;
@@ -871,17 +1464,17 @@ Snake.prototype.move = function() {
 };
 //функция проверки змейки на столкновения
 Snake.prototype.checkCollision = function() {
-	var head = this.segments[0];
-	var leftCollision = (head.col === 0)
-	var topCollision = (head.row === 0)
-	var rightCollision = (head.col === widthInB-1)
-	var bottomCollision = (head.row === heightInB-1)
+	let head = this.segments[0];
+	let leftCollision = (head.col === 0)
+	let topCollision = (head.row === 0)
+	let rightCollision = (head.col === widthInB-1)
+	let bottomCollision = (head.row === heightInB-1)
 
-	var wallCollision = leftCollision || topCollision || rightCollision || bottomCollision
+	let wallCollision = leftCollision || topCollision || rightCollision || bottomCollision
 
-	var selfCollision = false;
+	let selfCollision = false;
 	if(snake.segments.length!=2){
-	for (var j = 1; j < this.segments.length; j++) {
+	for (let j = 1; j < this.segments.length; j++) {
 		if (head.equal(this.segments[j])) {
 			selfCollision = true;
 		}
@@ -889,63 +1482,74 @@ Snake.prototype.checkCollision = function() {
 
 	return wallCollision || selfCollision;
 };
-//установление направления змейки, паузы, долга
-Snake.prototype.setDirection = function(newDirection) {
-	if (newDirection === "up" && this.direction === "down") {
+//зміна напрямку змійки, пауза, маніпуляції з боргом.
+Snake.prototype.setDirection = function(keyPressed) {
+	if ((keyPressed === "up" && this.direction === "down")||
+		(keyPressed === "right" && this.direction === "left")||
+		(keyPressed === "down" && this.direction === "up")||
+		(keyPressed === "left" && this.direction === "right")||
+		(keyPressed === "r-d" && this.direction === "l-u")||
+		(keyPressed === "r-u" && this.direction === "l-d")||
+		(keyPressed === "l-u" && this.direction === "r-d")||
+		(keyPressed === "l-d" && this.direction === "r-u")) {
 		return;
-	} else if (newDirection === "right" && this.direction === "left") {
-		return;
-	} else if (newDirection === "down" && this.direction === "up") {
-		return;
-	} else if (newDirection === "left" && this.direction === "right") {
-		return;
-	} else if (newDirection === "restart"){
-		restart()
-	}else if(newDirection === "enter"){
-	doin()
-	} else if (newDirection === "stop"&&!ctrl){
-		pause()
-	} else if (!ctrl&&(newDirection === "left" || newDirection === "right" ||
-		newDirection === "up" || newDirection === "down")){
-		if(play_sonds){
-		turning.play()}
-	this.nextDirection = newDirection;
-	} else if(newDirection==="shift"){
-		if(play_sonds){
-		adddebt.play()}	
-	if(score>0){
-		if(borg<1){
-		speed=100
-		score-=1
-		setTimeout(function(){
-			speed=basespeed
-		},3500)}else{
-		score-=1;
-		borg-=1;
-		}
-	} else if(newDirection=="last"){
-		apple.position=last3sec.apple;
-		snake.segments=last3sec.snasegs;
-		score=last3sec.score;
-		alert("flud")
-	}else{
-		speed=75
-		borg+=1
-		setTimeout(function(){
-			speed=basespeed
-		},3500)
 	}
-	} else if(newDirection=="ctrl"){
-		ctrl=!ctrl
-	}
+	switch(keyPressed){
+		case "restart":
+			restart();
+			break;
+		case "enter":
+			doin();
+			break;
+		case "stop":
+			pause();
+			break;
+		case "left":
+		case "right":
+		case "up":
+		case "down":
+		case "r-d":
+		case "r-u":
+		case "l-d":
+		case "l-u":
+			if(!stopping){
+				if(play_sonds){
+					turning.play()
+				}
+				this.nextDirection = keyPressed;
+			}
+			break;
+		case "shift":
+			if(play_sonds){
+				adddebt.play()
+			}	
+			if(score>0){
+				if(borg<1){
+					speed=100
+					score-=1
+					setTimeout(function(){
+						speed = basespeed
+					},3500)
+				}else{
+					score-=1;
+					borg-=1;
+				}
+			}else{
+				speed=75
+				borg+=1
+				setTimeout(function(){
+					speed=basespeed
+				},3500)
+			}
+		}	
 };
-//класс яблока, их ведь можно создать несколько!
-var Apple = function(){
+//класс яблука, можна зробити їх декілька!
+let Apple = function(){
 	this.position = new Block(11,11);
 	this.randomColor = colorOfApple[Math.floor(Math.random()*colorOfApple.length)]
-	var randomCol = Math.floor(Math.random()*(widthInB-2)+1)
-	var randomRow = Math.floor(Math.random()*(heightInB-2)+1)
-	var pos = new Block(randomCol, randomRow)
+	let randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+	let randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+	let pos = new Block(randomCol, randomRow)
 	if(lvl==1){
 		while(pos.equal(snake.segments[0])||wall_lvl1.equ(pos)){
 			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
@@ -972,10 +1576,12 @@ var Apple = function(){
 	if(this.size==1){
 		this.size=Math.floor(Math.random()*2)
 	}
-	last3sec.apple=this.position;
+	//last3sec.apple=this.position;
 }
 
 Apple.prototype.draw = function() {
+	
+	if(drawApple){
 	if(this.size==0){
 		this.position.drawCircle(1.5,this.randomColor);
 		c.fillStyle=bgcolor
@@ -994,15 +1600,16 @@ Apple.prototype.draw = function() {
 		circle(this.position.col*BS+BS/2,this.position.row*BS+BS,2.5,true)
 		c.fillStyle="SaddleBrown"
 		c.fillRect(this.position.col*BS+BS/2,this.position.row*BS-3,2,5)
-	}
+	}}
+	appskin(this.position.col*BS,this.position.row*BS,this.size)
 };
 
-var snake = new Snake()
+let snake = new Snake()
 Apple.prototype.move = function() {
 	this.randomColor = colorOfApple[Math.floor(Math.random()*colorOfApple.length)]
-	var randomCol = Math.floor(Math.random()*(widthInB-2)+1)
-	var randomRow = Math.floor(Math.random()*(heightInB-2)+1)
-	var pos = new Block(randomCol, randomRow)
+	let randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+	let randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+	let pos = new Block(randomCol, randomRow)
 	if(lvl==1){
 		while(pos.equal(snake.segments[0])||wall_lvl1.equ(pos)){
 			randomCol = Math.floor(Math.random()*(widthInB-2)+1)
@@ -1022,6 +1629,7 @@ Apple.prototype.move = function() {
 			pos = new Block(randomCol, randomRow)
 		}
 	}
+
 	this.size=Math.floor(Math.random()*2)
 	if(this.size==1){
 		this.size=Math.floor(Math.random()*2)
@@ -1030,9 +1638,9 @@ Apple.prototype.move = function() {
 		this.size=Math.floor(Math.random()*2)
 	}
 	this.position = pos;
-	setTimeout(function(){
+	/*setTimeout(function(){
 		last3sec.apple=pos;
-	},3000)
+	},3000)*/
 };
 class Pear{
 	constructor(){	
@@ -1043,9 +1651,9 @@ class Pear{
 		this.position=new Block(7000,7000)
 	}
 	move(){
-		var randomCol = Math.floor(Math.random()*(widthInB-2)+1)
-		var randomRow = Math.floor(Math.random()*(heightInB-2)+1)
-		var pos = new Block(randomCol, randomRow)
+		let randomCol = Math.floor(Math.random()*(widthInB-2)+1)
+		let randomRow = Math.floor(Math.random()*(heightInB-2)+1)
+		let pos = new Block(randomCol, randomRow)
 		if(lvl==1){
 			while(pos.equal(snake.segments[0])||wall_lvl1.equ(pos)){
 				randomCol = Math.floor(Math.random()*(widthInB-2)+1)
@@ -1105,7 +1713,7 @@ class Fruit_Eater{
 		this.stopping=false;
 	}
 	show(){
-		var ran=Math.floor(Math.random()*4);
+		let ran=Math.floor(Math.random()*4);
 		if(pear.isDel()){
 			if(ran==0){
 				this.position.col=1;
@@ -1169,19 +1777,20 @@ class Fruit_Eater{
 		circle(this.position.col+10,this.position.row+5,4,true)
 	}
 }
-var apple = new Apple()
-var pear = new Pear()
-var fruiteater=new Fruit_Eater()
-var keys = {32:"stop",87:"up",65:"left",83:"down",68:"right",
-82:"restart",38:"up",37:"left",39:"right",40:"down",16:"shift",13:"enter",17:"ctrl",76:"last"}
+let apple = new Apple()
+let pear = new Pear()
+let fruiteater=new Fruit_Eater()
+let keys = {" ":"stop","w":"up","W":"up","a":"left","A":"left","s":"down","S":"down","d":"right",
+"D":"right","r":"restart","R":"restart","ArrowUp":"up","ArrowLeft":"left","ArrowRight":"right","ArrowDown":"down","Shift":"shift","Enter":"enter","Ctrl":"ctrl","l":"last","l":"last","L":"last","c":"r-d","C":"r-d","e":"r-u","E":"r-u","q":"l-u","Q":"l-u","z":"l-d","Z":"l-d"}
 
 
 $("canvas").click(function(e){
-if((292,5<e.pageX&&e.pageX<322,5)&&(607<e.pageY&&e.pageY<637)){
-$("canvas").dblclick(function(){
+	//alert(e.pageX+","+e.pageY)
+if((e.pageX>292&&e.pageX<322)&&(e.pageY>627&&e.pageY<657)){
+/*$("canvas").dblclick(function(){
 	restart()
 	return;
-})
+})*/
 pause()
 }else if((630<e.pageX&&e.pageX<645)&&(15<e.pageY&&e.pageY<30)&&(score>19&&lvl==1)||(score>34&&lvl==2)||(score>49&&lvl==3)||lvl==4){
 lvl++
@@ -1193,7 +1802,7 @@ score-=20
 	setTimeout(function(){
 	c.fillStyle = bgcolor;
 	c.fillRect(BS,BS,width-BS*2,height-BS*2)
-	c.font = "20px Courier"
+	c.font = "bold 20px "+font
 	c.fillStyle = "White";
 	c.textAlign = "center"
 	c.textBaseline = "middle"
@@ -1204,12 +1813,12 @@ score-=20
 }}
 //console.log("x: "+e.pageX+", y: "+e.pageY)
 })
-	setTimeout(wheele,speed)
+let timeoutId = setTimeout(wheele,speed)
 $("body").keydown(function(event) {
-	var keyName = keys[event.keyCode]
+	let keyName = keys[event.key]
 	snake.setDirection(keyName)
 })
-$("canvas").mousemove(function(mouse){
+/*$("canvas").mousemove(function(mouse){
 	if(!ctrl&&!gameover&&isphone.checked){
 		coords.push([mouse.pageX,mouse.pageY])
 	if(coords.length=3){
@@ -1232,17 +1841,14 @@ $("canvas").mousemove(function(mouse){
 		}
 	}
 	}
-	}
-)
+	*/
 </script>
-<script id="console">
-var cons = document.getElementById("console");
-var input = "";
-var password = "1"
-var unlocked = false
-var hard=false
-var nogameov = false
-var nodelseg = false
+	<script>let cons = get("console");
+let input = "";
+let password = "1"
+let unlocked = false
+let nogameov = false
+let nodelseg = false
 function doin(){
 input=cons.value.toLowerCase()
 cons.value="";
@@ -1258,30 +1864,28 @@ if(unlocked){
 if(input.slice(0,8)=="setscore"){
 score = input.slice(9);
 }else if(input=="nowall"){
-wall.bricks=[]
+window['wall_lvl'+lvl].bricks=[]
 }else if(input.slice(0,4)=="go"){
 go=input.slice(5)
 if(go){
 wheele()
 }
-}else if(input="чеснок"){
-	window.close()
 }else if(input=="sixborg"){
-	borg=6;
+borg=6;
 }else if(input=="gaov"){
-	gameOver()	
+gameOver()	
 }else if(input=="dowall"){
-	wall.bricks=[
-		new Brick(15,15),
-		new Brick(15,14),
-		new Brick(14,14),
-		new Brick(14,13)
-	]
+wall_lvl1.bricks=[
+new Brick(15,15),
+new Brick(15,14),
+new Brick(14,14),
+new Brick(14,13)
+]
 }else if(input.slice(0,7)=="setborg"){
-	borg=input.slice(8);
+borg=input.slice(8);
 }else if(input.slice(0,8)=="setspeed"){
-	basespeed=input.slice(9);
-	speed=basespeed
+basespeed=input.slice(9);
+speed=basespeed
 }else if(input=="twoseg"){
 snake.segments=[snake.segments[0],snake.segments[snake.segments.length]]
 }else if(input=="apptohead"){
@@ -1299,21 +1903,21 @@ nogameov=false
 
 autoclick = setInterval(function(){
 if(pear.isDel){
-	var apply=apple;
+	let apply=apple;
 }else{
-	var apply=pear;
+	let apply=pear;
 }
-var selfCollision=false;
-var leftSelfCollis=false;
-var upSelfCollis=false;
+let selfCollision=false;
+let leftSelfCollis=false;
+let upSelfCollis=false;
 if(snake.direction=="left"){
-	for (var j = 1; j < snake.segments.length; j++) {
+	for (let j = 1; j < snake.segments.length; j++) {
 		if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
 			selfCollision = true;
 		}
 	}
 	if(selfCollision){
-		for (var j = 1; j < snake.segments.length; j++) {
+		for (let j = 1; j < snake.segments.length; j++) {
 			if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
 				upSelfCollis = true;
 			}
@@ -1325,13 +1929,13 @@ if(snake.direction=="left"){
 		}
 	}
 }else if(snake.direction=="right"){
-	for (var j = 1; j < snake.segments.length; j++) {
+	for (let j = 1; j < snake.segments.length; j++) {
 		if ((new Block(snake.segments[0].col+1,snake.segments[0].row)).equal(snake.segments[j])) {
 			selfCollision = true;
 		}
 	}
 	if(selfCollision){
-		for (var j = 1; j < snake.segments.length; j++) {
+		for (let j = 1; j < snake.segments.length; j++) {
 			if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
 				upSelfCollis = true;
 			}
@@ -1342,13 +1946,13 @@ if(snake.direction=="left"){
 			snake.setDirection("down")
 		}}
 }else if(snake.direction=="up"){
-	for (var j = 1; j < snake.segments.length; j++) {
+	for (let j = 1; j < snake.segments.length; j++) {
 		if ((new Block(snake.segments[0].col,snake.segments[0].row-1)).equal(snake.segments[j])) {
 			selfCollision = true;
 		}
 	}
 	if(selfCollision){
-		for (var j = 1; j < snake.segments.length; j++) {
+		for (let j = 1; j < snake.segments.length; j++) {
 			if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
 				leftSelfCollis = true;
 			}
@@ -1366,7 +1970,7 @@ if(snake.direction=="left"){
 		}
 	}
 	if(selfCollision){
-		for (var j = 1; j < snake.segments.length; j++) {
+		for (let j = 1; j < snake.segments.length; j++) {
 			if ((new Block(snake.segments[0].col-1,snake.segments[0].row)).equal(snake.segments[j])) {
 				leftSelfCollis = true;
 			}
@@ -1378,7 +1982,7 @@ if(snake.direction=="left"){
 		}
 	}
 }
-var rand = Math.floor(Math.random()*2)
+let rand = Math.floor(Math.random()*2)
 if(rand==0){
 	selfCollision = false;
 	if(apply.position.col<snake.segments[0].col){
@@ -1442,7 +2046,6 @@ alert(input)
 }
 //setscore 1
 //setspeed 1
-//setborg 1
-</script>
-</body>
-</html>
+//setborg 1</script>
+	</body>
+	</html>
